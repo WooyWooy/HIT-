@@ -599,7 +599,45 @@ th:nth-child(1),td:nth-child(1),th:nth-child(2),td:nth-child(2){text-align:left}
 .tenm-badge{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:900}.tenm-badge.achieved{background:rgba(31,184,201,.12);color:var(--cyan)}.tenm-badge.below{background:var(--red-soft);color:var(--red)}
 @media(max-width:640px){.player-stats{grid-template-columns:1fr}.top10-grid{grid-template-columns:1fr}.player-stats>div{padding:13px}.player-stats strong{font-size:19px}}
 
-.weekday-score-table{min-width:860px}.weekday-score-table th,.weekday-score-table td{white-space:nowrap}.weekday-score-table th:nth-child(n+3),.weekday-score-table td:nth-child(n+3){text-align:right}.weekday-score-table td:nth-child(2){font-weight:800}
+.weekday-score-table{min-width:640px}.weekday-score-table th,.weekday-score-table td{white-space:nowrap}.weekday-score-table th:nth-child(n+3),.weekday-score-table td:nth-child(n+3){text-align:right}.weekday-score-table td:nth-child(2){font-weight:800}
+
+/* 동맹원별 요일별 점수표: 10M 미만 점수 셀 배경 강조 */
+.weekday-score-table td.score-under-10m{
+  background:#ffd9de !important;
+  color:#b42335 !important;
+  box-shadow:inset 0 0 0 1px rgba(180,35,53,.12);
+  font-weight:800;
+}
+.score-color-legend{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:8px;
+  margin:0 4px 10px;
+  color:#b42335;
+  font-size:13px;
+}
+.score-color-swatch{
+  width:18px;
+  height:18px;
+  border-radius:5px;
+  background:#ffd9de;
+  box-shadow:inset 0 0 0 1px rgba(180,35,53,.12);
+}
+
+@media(max-width:640px){.weekday-score-table{min-width:600px}}
+
+
+/* 네이티브 details 기반 항목별 열기/닫기: JavaScript 없이 확실하게 동작 */
+details.accordion-section{margin-top:30px}
+details.accordion-section>summary{list-style:none}
+details.accordion-section>summary::-webkit-details-marker{display:none}
+details.accordion-section>.accordion-head{cursor:pointer;user-select:none;position:relative;padding-right:48px;margin:0 2px 12px}
+details.accordion-section>.accordion-head .native-chevron{position:absolute;right:14px;top:50%;transform:translateY(-50%) rotate(-90deg);width:30px;height:30px;border:1px solid var(--line);border-radius:9px;background:rgba(255,255,255,.72);display:inline-flex;align-items:center;justify-content:center;font-size:17px;line-height:1;transition:transform .2s ease}
+details.accordion-section[open]>.accordion-head .native-chevron{transform:translateY(-50%) rotate(0deg)}
+details.accordion-section:not([open])>.accordion-head{margin-bottom:0}
+details.accordion-section>.accordion-head:focus-visible{outline:2px solid var(--blue);outline-offset:4px;border-radius:8px}
+@media(max-width:640px){details.accordion-section>.accordion-head{padding-right:44px}details.accordion-section>.accordion-head .native-chevron{right:10px;width:28px;height:28px}}
 </style>
 <style>
 /* 과거 전적 컴팩트 4열 레이아웃 */
@@ -683,6 +721,65 @@ th:nth-child(1),td:nth-child(1),th:nth-child(2),td:nth-child(2){text-align:left}
   .weekday-score-table th:nth-child(n+3),
   .weekday-score-table td:nth-child(n+3){width:65px}
 }
+
+
+/* 항목별 열기/닫기 */
+.sectionhead.accordion-head {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding-right: 48px;
+}
+.sectionhead.accordion-head:hover {
+  filter: brightness(1.04);
+}
+.section-toggle {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%) rotate(0deg);
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 9px;
+  background: rgba(255,255,255,.06);
+  color: inherit;
+  font-size: 17px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform .22s ease, background .22s ease;
+}
+.section-toggle:hover { background: rgba(255,255,255,.11); }
+.collapsible-section.is-collapsed .section-toggle {
+  transform: translateY(-50%) rotate(-90deg);
+}
+.collapsible-section > .section-content {
+  display: grid;
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transition: grid-template-rows .25s ease, opacity .2s ease;
+}
+.collapsible-section > .section-content > .section-content-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+.collapsible-section.is-collapsed > .section-content {
+  display: none !important;
+}
+.history-details[open] .history-launcher .history-arrow {
+  transform: rotate(180deg);
+}
+.history-launcher .history-arrow {
+  display: inline-block;
+  transition: transform .22s ease;
+}
+@media (max-width: 640px) {
+  .sectionhead.accordion-head { padding-right: 44px; }
+  .section-toggle { right: 10px; width: 28px; height: 28px; }
+}
 </style>
 </head>
 <body>
@@ -697,11 +794,10 @@ th:nth-child(1),td:nth-child(1),th:nth-child(2),td:nth-child(2){text-align:left}
 <div class="hero-badge">HONOR IN TILES</div>
 </div>
 </header>
-<section class="section">
-<div class="sectionhead">
+<details class="section accordion-section" open=""><summary class="sectionhead accordion-head">
 <h2>현재 상대 종합 비교</h2>
 <span>11회 동맹리그 · 4주차</span>
-</div>
+<span class="native-chevron">⌄</span></summary>
 <div class="panel comparison-board">
 <div class="overall-match">
 <div class="overall-team hit-overall">
@@ -728,11 +824,11 @@ th:nth-child(1),td:nth-child(1),th:nth-child(2),td:nth-child(2){text-align:left}
 </div>
 <div class="score-duel">
 <div class="side hit-side">
-<span>HIT</span><strong>2.717</strong><small>B</small><em class="hit-average">인당 27.72M</em>
+<span>HIT</span><strong>2.72</strong><small>B</small><em class="hit-average">인당 27.72M</em>
 </div>
 <div class="duel-mark">VS</div>
 <div class="side stb-side winner-side">
-<span>STB</span><strong>3.884</strong><small>B</small>
+<span>STB</span><strong>3.88</strong><small>B</small>
 </div>
 </div>
 <div class="winner-strip"><span>WINNER</span><strong>STB</strong><em>+1</em></div>
@@ -744,11 +840,11 @@ th:nth-child(1),td:nth-child(1),th:nth-child(2),td:nth-child(2){text-align:left}
 </div>
 <div class="score-duel">
 <div class="side hit-side">
-<span>HIT</span><strong>1.489</strong><small>B</small><em class="hit-average">인당 15.19M</em>
+<span>HIT</span><strong>1.49</strong><small>B</small><em class="hit-average">인당 15.19M</em>
 </div>
 <div class="duel-mark">VS</div>
 <div class="side stb-side winner-side">
-<span>STB</span><strong>1.814</strong><small>B</small>
+<span>STB</span><strong>1.81</strong><small>B</small>
 </div>
 </div>
 <div class="winner-strip"><span>WINNER</span><strong>STB</strong><em>+2</em></div>
@@ -760,11 +856,11 @@ th:nth-child(1),td:nth-child(1),th:nth-child(2),td:nth-child(2){text-align:left}
 </div>
 <div class="score-duel">
 <div class="side hit-side">
-<span>HIT</span><strong>4.491</strong><small>B</small><em class="hit-average">인당 45.83M</em>
+<span>HIT</span><strong>4.49</strong><small>B</small><em class="hit-average">인당 45.83M</em>
 </div>
 <div class="duel-mark">VS</div>
 <div class="side stb-side winner-side">
-<span>STB</span><strong>6.185</strong><small>B</small>
+<span>STB</span><strong>6.19</strong><small>B</small>
 </div>
 </div>
 <div class="winner-strip"><span>WINNER</span><strong>STB</strong><em>+2</em></div>
@@ -776,11 +872,11 @@ th:nth-child(1),td:nth-child(1),th:nth-child(2),td:nth-child(2){text-align:left}
 </div>
 <div class="score-duel">
 <div class="side hit-side">
-<span>HIT</span><strong>4.538</strong><small>B</small><em class="hit-average">인당 49.87M</em>
+<span>HIT</span><strong>4.54</strong><small>B</small><em class="hit-average">인당 49.87M</em>
 </div>
 <div class="duel-mark">VS</div>
 <div class="side stb-side winner-side">
-<span>STB</span><strong>5.309</strong><small>B</small>
+<span>STB</span><strong>5.31</strong><small>B</small>
 </div>
 </div>
 <div class="winner-strip"><span>WINNER</span><strong>STB</strong><em>+2</em></div>
@@ -809,7 +905,7 @@ th:nth-child(1),td:nth-child(1),th:nth-child(2),td:nth-child(2){text-align:left}
 </article>
 </div>
 </div>
-</section>
+</details>
 <section class="section history-section">
 <details class="history-details" id="battleHistory">
 <summary class="history-launcher" id="historyToggle">
@@ -886,23 +982,28 @@ th:nth-child(1),td:nth-child(1),th:nth-child(2),td:nth-child(2){text-align:left}
 <tbody id="historyRows">
 <tr>
 <td><span class="day-main">월요일</span><small class="day-theme">레이더 특훈</small></td>
-<td><span class="score-main">2.717B</span><small class="score-sub">27.72M/인 · 98명</small></td>
-<td><span class="score-main">3.884B</span></td>
+<td><span class="score-main">2.72B</span><small class="score-sub">27.72M/인 · 98명</small></td>
+<td><span class="score-main">3.88B</span></td>
 <td><span class="wl-mark wl-loss">L</span></td>
 </tr>
 <tr>
 <td><span class="day-main">화요일</span><small class="day-theme">기지 건설</small></td>
-<td><span class="score-main">1.489B</span><small class="score-sub">15.19M/인 · 98명</small></td>
-<td><span class="score-main">1.814B</span></td>
+<td><span class="score-main">1.49B</span><small class="score-sub">15.19M/인 · 98명</small></td>
+<td><span class="score-main">1.81B</span></td>
 <td><span class="wl-mark wl-loss">L</span></td>
 </tr>
 <tr>
 <td><span class="day-main">수요일</span><small class="day-theme">기술 연구</small></td>
-<td><span class="score-main">4.491B</span><small class="score-sub">45.83M/인 · 98명</small></td>
-<td><span class="score-main">6.185B</span></td>
+<td><span class="score-main">4.49B</span><small class="score-sub">45.83M/인 · 98명</small></td>
+<td><span class="score-main">6.19B</span></td>
 <td><span class="wl-mark wl-loss">L</span></td>
 </tr>
-<tr><td><span class="day-main">목요일</span><small class="day-theme">영웅 육성</small></td><td class="pending">-</td><td class="pending">-</td><td><span class="wl-mark wl-wait">-</span></td></tr>
+<tr>
+<td><span class="day-main">목요일</span><small class="day-theme">영웅 육성</small></td>
+<td><span class="score-main">4.54B</span><small class="score-sub">49.87M/인 · 91명</small></td>
+<td><span class="score-main">5.31B</span></td>
+<td><span class="wl-mark wl-loss">L</span></td>
+</tr>
 <tr><td><span class="day-main">금요일</span><small class="day-theme">전투 준비</small></td><td class="pending">-</td><td class="pending">-</td><td><span class="wl-mark wl-wait">-</span></td></tr>
 <tr><td><span class="day-main">토요일</span><small class="day-theme">적군 처치</small></td><td class="pending">-</td><td class="pending">-</td><td><span class="wl-mark wl-wait">-</span></td></tr>
 </tbody>
@@ -916,18 +1017,17 @@ th:nth-child(1),td:nth-child(1),th:nth-child(2),td:nth-child(2){text-align:left}
 </div>
 </details>
 </section>
-<section class="section player-section">
-
+<details class="section accordion-section player-section" open=""><summary class="sectionhead accordion-head"><h2>동맹원별 요일별 점수</h2><span>월~토 점수 현황 · 붉은 배경은 10M 미만</span><span class="native-chevron">⌄</span></summary>
+<div class="score-color-legend"><span class="score-color-swatch"></span><strong>10M 미만 점수</strong></div>
 <div class="tablewrap panel">
 <table class="ranking-table weekday-score-table">
 <thead><tr><th>닉네임</th><th>누적</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr></thead>
-<tbody><tr><td>장비</td><td class="strong">667.63M</td><td>25.13M</td><td>28.01M</td><td>222.21M</td><td>392.28M</td><td>—</td><td>—</td></tr><tr><td>우이</td><td class="strong">364.94M</td><td>69.82M</td><td>22.50M</td><td>206.22M</td><td>66.40M</td><td>—</td><td>—</td></tr><tr><td>똠</td><td class="strong">364.72M</td><td>128.67M</td><td>45.79M</td><td>99.40M</td><td>90.86M</td><td>—</td><td>—</td></tr><tr><td>짜야</td><td class="strong">356.60M</td><td>66.99M</td><td>21.77M</td><td>170.79M</td><td>97.05M</td><td>—</td><td>—</td></tr><tr><td>{HIT}~Ching菁</td><td class="strong">311.04M</td><td>46.91M</td><td>26.16M</td><td>108.19M</td><td>129.78M</td><td>—</td><td>—</td></tr><tr><td>☆*•夜&amp;月☆*•</td><td class="strong">284.30M</td><td>38.80M</td><td>23.07M</td><td>109.71M</td><td>112.72M</td><td>—</td><td>—</td></tr><tr><td>젬마스터</td><td class="strong">256.16M</td><td>23.46M</td><td>21.99M</td><td>56.25M</td><td>154.46M</td><td>—</td><td>—</td></tr><tr><td>이집사</td><td class="strong">254.64M</td><td>66.52M</td><td>39.45M</td><td>70.42M</td><td>78.25M</td><td>—</td><td>—</td></tr><tr><td>요기조기</td><td class="strong">249.14M</td><td>34.22M</td><td>25.70M</td><td>111.99M</td><td>77.23M</td><td>—</td><td>—</td></tr><tr><td>HIT._CHUB。</td><td class="strong">238.88M</td><td>91.23M</td><td>14.73M</td><td>41.07M</td><td>91.85M</td><td>—</td><td>—</td></tr><tr><td>일집사</td><td class="strong">230.88M</td><td>47.81M</td><td>10.68M</td><td>78.09M</td><td>94.30M</td><td>—</td><td>—</td></tr><tr><td>레드™</td><td class="strong">230.73M</td><td>45.22M</td><td>21.96M</td><td>98.32M</td><td>65.23M</td><td>—</td><td>—</td></tr><tr><td>하후돈°*✤</td><td class="strong">221.75M</td><td>29.40M</td><td>28.01M</td><td>113.48M</td><td>50.86M</td><td>—</td><td>—</td></tr><tr><td>성게</td><td class="strong">217.91M</td><td>39.33M</td><td>8.71M</td><td>65.17M</td><td>104.70M</td><td>—</td><td>—</td></tr><tr><td>월루천향</td><td class="strong">213.62M</td><td>35.59M</td><td>13.97M</td><td>99.53M</td><td>64.53M</td><td>—</td><td>—</td></tr><tr><td>빵뽕꼬고</td><td class="strong">208.66M</td><td>61.66M</td><td>14.09M</td><td>53.05M</td><td>79.86M</td><td>—</td><td>—</td></tr><tr><td>HellSpawn</td><td class="strong">198.57M</td><td>64.48M</td><td>27.36M</td><td>69.91M</td><td>36.82M</td><td>—</td><td>—</td></tr><tr><td>Survivor.00001</td><td class="strong">196.34M</td><td>13.21M</td><td>12.72M</td><td>45.96M</td><td>124.45M</td><td>—</td><td>—</td></tr><tr><td>직진왕김빠꾸</td><td class="strong">193.84M</td><td>13.80M</td><td>7.25M</td><td>126.68M</td><td>46.11M</td><td>—</td><td>—</td></tr><tr><td>EUNHARI</td><td class="strong">185.79M</td><td>46.74M</td><td>24.42M</td><td>48.74M</td><td>65.89M</td><td>—</td><td>—</td></tr><tr><td>오드리햇반</td><td class="strong">183.99M</td><td>31.82M</td><td>15.00M</td><td>89.74M</td><td>47.43M</td><td>—</td><td>—</td></tr><tr><td>물오리</td><td class="strong">183.34M</td><td>81.12M</td><td>23.47M</td><td>29.90M</td><td>48.85M</td><td>—</td><td>—</td></tr><tr><td>황 후</td><td class="strong">181.42M</td><td>47.33M</td><td>9.22M</td><td>66.64M</td><td>58.23M</td><td>—</td><td>—</td></tr><tr><td>AAA就</td><td class="strong">180.93M</td><td>40.42M</td><td>16.29M</td><td>56.03M</td><td>68.19M</td><td>—</td><td>—</td></tr><tr><td>한국유저</td><td class="strong">179.83M</td><td>32.84M</td><td>39.93M</td><td>55.67M</td><td>51.39M</td><td>—</td><td>—</td></tr><tr><td>도라이언</td><td class="strong">179.39M</td><td>25.64M</td><td>11.37M</td><td>64.41M</td><td>77.97M</td><td>—</td><td>—</td></tr><tr><td>우이이</td><td class="strong">176.47M</td><td>6.81M</td><td>6.50M</td><td>125.41M</td><td>37.75M</td><td>—</td><td>—</td></tr><tr><td>지휘관</td><td class="strong">169.78M</td><td>50.53M</td><td>27.61M</td><td>28.85M</td><td>62.79M</td><td>—</td><td>—</td></tr><tr><td>Schlumpf</td><td class="strong">166.12M</td><td>63.64M</td><td>20.98M</td><td>28.48M</td><td>53.02M</td><td>—</td><td>—</td></tr><tr><td>7thSIN</td><td class="strong">153.32M</td><td>36.86M</td><td>13.80M</td><td>46.84M</td><td>55.82M</td><td>—</td><td>—</td></tr><tr><td>영포티</td><td class="strong">149.76M</td><td>29.54M</td><td>20.47M</td><td>78.71M</td><td>21.04M</td><td>—</td><td>—</td></tr><tr><td>풀짜응</td><td class="strong">145.42M</td><td>11.85M</td><td>11.88M</td><td>58.50M</td><td>63.19M</td><td>—</td><td>—</td></tr><tr><td>소양강처남</td><td class="strong">141.27M</td><td>31.39M</td><td>6.89M</td><td>54.46M</td><td>48.53M</td><td>—</td><td>—</td></tr><tr><td>소후돈°*✤</td><td class="strong">140.16M</td><td>20.36M</td><td>16.73M</td><td>25.22M</td><td>77.85M</td><td>—</td><td>—</td></tr><tr><td>스나이퍼</td><td class="strong">139.52M</td><td>26.10M</td><td>36.46M</td><td>43.47M</td><td>33.49M</td><td>—</td><td>—</td></tr><tr><td>Kayako</td><td class="strong">137.35M</td><td>18.18M</td><td>55.39M</td><td>22.58M</td><td>41.20M</td><td>—</td><td>—</td></tr><tr><td>Monique</td><td class="strong">136.84M</td><td>57.26M</td><td>29.77M</td><td>22.44M</td><td>27.37M</td><td>—</td><td>—</td></tr><tr><td>k pop</td><td class="strong">136.11M</td><td>28.09M</td><td>16.73M</td><td>43.35M</td><td>47.94M</td><td>—</td><td>—</td></tr><tr><td>파파팡</td><td class="strong">135.74M</td><td>31.54M</td><td>6.85M</td><td>48.99M</td><td>48.36M</td><td>—</td><td>—</td></tr><tr><td>정글√</td><td class="strong">134.98M</td><td>23.44M</td><td>17.66M</td><td>65.88M</td><td>28.00M</td><td>—</td><td>—</td></tr><tr><td>소양강처남댁</td><td class="strong">133.17M</td><td>38.44M</td><td>9.40M</td><td>18.34M</td><td>66.99M</td><td>—</td><td>—</td></tr><tr><td>TomKim</td><td class="strong">130.84M</td><td>23.61M</td><td>14.55M</td><td>40.37M</td><td>52.31M</td><td>—</td><td>—</td></tr><tr><td>reno</td><td class="strong">130.53M</td><td>13.51M</td><td>17.75M</td><td>52.78M</td><td>46.49M</td><td>—</td><td>—</td></tr><tr><td>소양강처자</td><td class="strong">130.42M</td><td>32.32M</td><td>10.02M</td><td>32.02M</td><td>56.06M</td><td>—</td><td>—</td></tr><tr><td>Felix 용복°</td><td class="strong">129.85M</td><td>13.25M</td><td>23.32M</td><td>47.51M</td><td>45.77M</td><td>—</td><td>—</td></tr><tr><td>우라HIT</td><td class="strong">124.41M</td><td>37.14M</td><td>6.09M</td><td>28.94M</td><td>52.24M</td><td>—</td><td>—</td></tr><tr><td>푸우우</td><td class="strong">124.37M</td><td>16.68M</td><td>10.73M</td><td>51.49M</td><td>45.47M</td><td>—</td><td>—</td></tr><tr><td>HIT감자탕</td><td class="strong">123.20M</td><td>10.91M</td><td>15.46M</td><td>53.27M</td><td>43.56M</td><td>—</td><td>—</td></tr><tr><td>l아장l</td><td class="strong">119.05M</td><td>13.41M</td><td>10.99M</td><td>57.23M</td><td>37.42M</td><td>—</td><td>—</td></tr><tr><td>what??</td><td class="strong">117.29M</td><td>16.69M</td><td>16.66M</td><td>66.64M</td><td>17.30M</td><td>—</td><td>—</td></tr><tr><td>제천대성</td><td class="strong">115.55M</td><td>15.19M</td><td>14.08M</td><td>36.35M</td><td>49.93M</td><td>—</td><td>—</td></tr><tr><td>이정후</td><td class="strong">110.77M</td><td>11.72M</td><td>12.48M</td><td>56.86M</td><td>29.71M</td><td>—</td><td>—</td></tr><tr><td>리부자리</td><td class="strong">107.46M</td><td>23.10M</td><td>9.26M</td><td>50.64M</td><td>24.46M</td><td>—</td><td>—</td></tr><tr><td>yul</td><td class="strong">107.23M</td><td>25.64M</td><td>12.24M</td><td>41.70M</td><td>27.65M</td><td>—</td><td>—</td></tr><tr><td>명쥬명쥬</td><td class="strong">106.35M</td><td>30.70M</td><td>8.28M</td><td>30.44M</td><td>36.93M</td><td>—</td><td>—</td></tr><tr><td>현아곰도리</td><td class="strong">105.11M</td><td>24.05M</td><td>17.38M</td><td>15.43M</td><td>48.25M</td><td>—</td><td>—</td></tr><tr><td>소양강처녀</td><td class="strong">104.45M</td><td>16.80M</td><td>7.68M</td><td>14.82M</td><td>65.15M</td><td>—</td><td>—</td></tr><tr><td>난나나</td><td class="strong">103.76M</td><td>30.43M</td><td>12.33M</td><td>29.45M</td><td>31.55M</td><td>—</td><td>—</td></tr><tr><td>명듀명듀</td><td class="strong">103.60M</td><td>29.36M</td><td>11.32M</td><td>22.09M</td><td>40.83M</td><td>—</td><td>—</td></tr><tr><td>uow日青</td><td class="strong">103.26M</td><td>12.06M</td><td>11.75M</td><td>29.81M</td><td>49.64M</td><td>—</td><td>—</td></tr><tr><td>감자탕</td><td class="strong">101.72M</td><td>11.99M</td><td>16.66M</td><td>67.03M</td><td>6.04M</td><td>—</td><td>—</td></tr><tr><td>Максус</td><td class="strong">100.29M</td><td>30.81M</td><td>10.90M</td><td>23.00M</td><td>35.58M</td><td>—</td><td>—</td></tr><tr><td>황 비</td><td class="strong">97.95M</td><td>41.56M</td><td>12.63M</td><td>31.18M</td><td>12.58M</td><td>—</td><td>—</td></tr><tr><td>푸르미르</td><td class="strong">96.16M</td><td>27.57M</td><td>11.75M</td><td>18.22M</td><td>38.62M</td><td>—</td><td>—</td></tr><tr><td>Kinanoramyle</td><td class="strong">95.24M</td><td>19.92M</td><td>20.78M</td><td>17.44M</td><td>37.10M</td><td>—</td><td>—</td></tr><tr><td>달서역맥</td><td class="strong">95.21M</td><td>30.98M</td><td>14.38M</td><td>20.31M</td><td>29.54M</td><td>—</td><td>—</td></tr><tr><td>SergoN</td><td class="strong">95.19M</td><td>0</td><td>12.21M</td><td>33.24M</td><td>49.74M</td><td>—</td><td>—</td></tr><tr><td>PEPE</td><td class="strong">92.00M</td><td>16.68M</td><td>14.44M</td><td>31.51M</td><td>29.37M</td><td>—</td><td>—</td></tr><tr><td>토미애비</td><td class="strong">91.67M</td><td>22.73M</td><td>10.87M</td><td>27.34M</td><td>30.73M</td><td>—</td><td>—</td></tr><tr><td>아 슬 란</td><td class="strong">91.34M</td><td>12.36M</td><td>31.17M</td><td>27.66M</td><td>20.15M</td><td>—</td><td>—</td></tr><tr><td>Moscow</td><td class="strong">89.12M</td><td>11.68M</td><td>10.81M</td><td>38.47M</td><td>28.16M</td><td>—</td><td>—</td></tr><tr><td>누리누</td><td class="strong">87.39M</td><td>31.85M</td><td>6.84M</td><td>12.90M</td><td>35.80M</td><td>—</td><td>—</td></tr><tr><td>Peebaby</td><td class="strong">82.09M</td><td>8.47M</td><td>27.17M</td><td>14.61M</td><td>31.84M</td><td>—</td><td>—</td></tr><tr><td>로랑</td><td class="strong">80.84M</td><td>14.23M</td><td>9.82M</td><td>21.79M</td><td>35.00M</td><td>—</td><td>—</td></tr><tr><td>용신연화</td><td class="strong">80.08M</td><td>40.30M</td><td>11.26M</td><td>17.78M</td><td>10.74M</td><td>—</td><td>—</td></tr><tr><td>누리 nuri</td><td class="strong">78.47M</td><td>22.82M</td><td>9.13M</td><td>30.54M</td><td>15.98M</td><td>—</td><td>—</td></tr><tr><td>솔리솔</td><td class="strong">77.58M</td><td>17.29M</td><td>11.04M</td><td>28.65M</td><td>20.60M</td><td>—</td><td>—</td></tr><tr><td>오만도리</td><td class="strong">77.04M</td><td>14.78M</td><td>21.70M</td><td>16.47M</td><td>24.09M</td><td>—</td><td>—</td></tr><tr><td>친친</td><td class="strong">70.54M</td><td>13.25M</td><td>10.30M</td><td>35.78M</td><td>11.21M</td><td>—</td><td>—</td></tr><tr><td>多多關照</td><td class="strong">69.02M</td><td>11.29M</td><td>12.53M</td><td>25.34M</td><td>19.86M</td><td>—</td><td>—</td></tr><tr><td>도라이언방구</td><td class="strong">68.02M</td><td>27.24M</td><td>18.22M</td><td>5.39M</td><td>17.17M</td><td>—</td><td>—</td></tr><tr><td>멜로우</td><td class="strong">67.27M</td><td>27.91M</td><td>13.45M</td><td>17.37M</td><td>8.54M</td><td>—</td><td>—</td></tr><tr><td>uow沛沛玲</td><td class="strong">66.77M</td><td>28.46M</td><td>11.04M</td><td>15.14M</td><td>12.13M</td><td>—</td><td>—</td></tr><tr><td>滿分堡</td><td class="strong">59.60M</td><td>19.52M</td><td>7.24M</td><td>10.98M</td><td>21.86M</td><td>—</td><td>—</td></tr><tr><td>망쿠</td><td class="strong">57.59M</td><td>12.23M</td><td>12.19M</td><td>21.91M</td><td>11.26M</td><td>—</td><td>—</td></tr><tr><td>잠자는 팬더</td><td class="strong">57.47M</td><td>18.63M</td><td>4.51M</td><td>19.40M</td><td>14.93M</td><td>—</td><td>—</td></tr><tr><td>이불속곰탱이</td><td class="strong">41.76M</td><td>15.78M</td><td>5.60M</td><td>11.52M</td><td>8.86M</td><td>—</td><td>—</td></tr><tr><td>도라이언1호</td><td class="strong">29.21M</td><td>3.68M</td><td>6.69M</td><td>1.33M</td><td>17.51M</td><td>—</td><td>—</td></tr><tr><td>_RIMA</td><td class="strong">24.27M</td><td>4.59M</td><td>12.66M</td><td>0</td><td>7.02M</td><td>—</td><td>—</td></tr><tr><td>전 복</td><td class="strong">11.19M</td><td>707.40K</td><td>2.17M</td><td>2.22M</td><td>6.09M</td><td>—</td><td>—</td></tr></tbody>
+<tbody><tr><td>장비</td><td class="strong">667.63M</td><td>25.13M</td><td>28.01M</td><td>222.21M</td><td>392.28M</td><td>—</td><td>—</td></tr><tr><td>우이</td><td class="strong">364.94M</td><td>69.82M</td><td>22.50M</td><td>206.22M</td><td>66.40M</td><td>—</td><td>—</td></tr><tr><td>똠</td><td class="strong">364.72M</td><td>128.67M</td><td>45.79M</td><td>99.40M</td><td>90.86M</td><td>—</td><td>—</td></tr><tr><td>짜야</td><td class="strong">356.60M</td><td>66.99M</td><td>21.77M</td><td>170.79M</td><td>97.05M</td><td>—</td><td>—</td></tr><tr><td>{HIT}~Ching菁</td><td class="strong">311.04M</td><td>46.91M</td><td>26.16M</td><td>108.19M</td><td>129.78M</td><td>—</td><td>—</td></tr><tr><td>☆*•夜&amp;月☆*•</td><td class="strong">284.30M</td><td>38.80M</td><td>23.07M</td><td>109.71M</td><td>112.72M</td><td>—</td><td>—</td></tr><tr><td>젬마스터</td><td class="strong">256.16M</td><td>23.46M</td><td>21.99M</td><td>56.25M</td><td>154.46M</td><td>—</td><td>—</td></tr><tr><td>이집사</td><td class="strong">254.64M</td><td>66.52M</td><td>39.45M</td><td>70.42M</td><td>78.25M</td><td>—</td><td>—</td></tr><tr><td>요기조기</td><td class="strong">249.14M</td><td>34.22M</td><td>25.70M</td><td>111.99M</td><td>77.23M</td><td>—</td><td>—</td></tr><tr><td>HIT._CHUB。</td><td class="strong">238.88M</td><td>91.23M</td><td>14.73M</td><td>41.07M</td><td>91.85M</td><td>—</td><td>—</td></tr><tr><td>일집사</td><td class="strong">230.88M</td><td>47.81M</td><td>10.68M</td><td>78.09M</td><td>94.30M</td><td>—</td><td>—</td></tr><tr><td>레드™</td><td class="strong">230.73M</td><td>45.22M</td><td>21.96M</td><td>98.32M</td><td>65.23M</td><td>—</td><td>—</td></tr><tr><td>하후돈°*✤</td><td class="strong">221.75M</td><td>29.40M</td><td>28.01M</td><td>113.48M</td><td>50.86M</td><td>—</td><td>—</td></tr><tr><td>성게</td><td class="strong">217.91M</td><td>39.33M</td><td class="score-under-10m">8.71M</td><td>65.17M</td><td>104.70M</td><td>—</td><td>—</td></tr><tr><td>월루천향</td><td class="strong">213.62M</td><td>35.59M</td><td>13.97M</td><td>99.53M</td><td>64.53M</td><td>—</td><td>—</td></tr><tr><td>빵뽕꼬고</td><td class="strong">208.66M</td><td>61.66M</td><td>14.09M</td><td>53.05M</td><td>79.86M</td><td>—</td><td>—</td></tr><tr><td>HellSpawn</td><td class="strong">198.57M</td><td>64.48M</td><td>27.36M</td><td>69.91M</td><td>36.82M</td><td>—</td><td>—</td></tr><tr><td>Survivor.00001</td><td class="strong">196.34M</td><td>13.21M</td><td>12.72M</td><td>45.96M</td><td>124.45M</td><td>—</td><td>—</td></tr><tr><td>직진왕김빠꾸</td><td class="strong">193.84M</td><td>13.80M</td><td class="score-under-10m">7.25M</td><td>126.68M</td><td>46.11M</td><td>—</td><td>—</td></tr><tr><td>EUNHARI</td><td class="strong">185.79M</td><td>46.74M</td><td>24.42M</td><td>48.74M</td><td>65.89M</td><td>—</td><td>—</td></tr><tr><td>오드리햇반</td><td class="strong">183.99M</td><td>31.82M</td><td>15.00M</td><td>89.74M</td><td>47.43M</td><td>—</td><td>—</td></tr><tr><td>물오리</td><td class="strong">183.34M</td><td>81.12M</td><td>23.47M</td><td>29.90M</td><td>48.85M</td><td>—</td><td>—</td></tr><tr><td>황 후</td><td class="strong">181.42M</td><td>47.33M</td><td class="score-under-10m">9.22M</td><td>66.64M</td><td>58.23M</td><td>—</td><td>—</td></tr><tr><td>AAA就</td><td class="strong">180.93M</td><td>40.42M</td><td>16.29M</td><td>56.03M</td><td>68.19M</td><td>—</td><td>—</td></tr><tr><td>한국유저</td><td class="strong">179.83M</td><td>32.84M</td><td>39.93M</td><td>55.67M</td><td>51.39M</td><td>—</td><td>—</td></tr><tr><td>도라이언</td><td class="strong">179.39M</td><td>25.64M</td><td>11.37M</td><td>64.41M</td><td>77.97M</td><td>—</td><td>—</td></tr><tr><td>우이이</td><td class="strong">176.47M</td><td class="score-under-10m">6.81M</td><td class="score-under-10m">6.50M</td><td>125.41M</td><td>37.75M</td><td>—</td><td>—</td></tr><tr><td>지휘관</td><td class="strong">169.78M</td><td>50.53M</td><td>27.61M</td><td>28.85M</td><td>62.79M</td><td>—</td><td>—</td></tr><tr><td>Schlumpf</td><td class="strong">166.12M</td><td>63.64M</td><td>20.98M</td><td>28.48M</td><td>53.02M</td><td>—</td><td>—</td></tr><tr><td>7thSIN</td><td class="strong">153.32M</td><td>36.86M</td><td>13.80M</td><td>46.84M</td><td>55.82M</td><td>—</td><td>—</td></tr><tr><td>영포티</td><td class="strong">149.76M</td><td>29.54M</td><td>20.47M</td><td>78.71M</td><td>21.04M</td><td>—</td><td>—</td></tr><tr><td>풀짜응</td><td class="strong">145.42M</td><td>11.85M</td><td>11.88M</td><td>58.50M</td><td>63.19M</td><td>—</td><td>—</td></tr><tr><td>소양강처남</td><td class="strong">141.27M</td><td>31.39M</td><td class="score-under-10m">6.89M</td><td>54.46M</td><td>48.53M</td><td>—</td><td>—</td></tr><tr><td>소후돈°*✤</td><td class="strong">140.16M</td><td>20.36M</td><td>16.73M</td><td>25.22M</td><td>77.85M</td><td>—</td><td>—</td></tr><tr><td>스나이퍼</td><td class="strong">139.52M</td><td>26.10M</td><td>36.46M</td><td>43.47M</td><td>33.49M</td><td>—</td><td>—</td></tr><tr><td>Kayako</td><td class="strong">137.35M</td><td>18.18M</td><td>55.39M</td><td>22.58M</td><td>41.20M</td><td>—</td><td>—</td></tr><tr><td>Monique</td><td class="strong">136.84M</td><td>57.26M</td><td>29.77M</td><td>22.44M</td><td>27.37M</td><td>—</td><td>—</td></tr><tr><td>k pop</td><td class="strong">136.11M</td><td>28.09M</td><td>16.73M</td><td>43.35M</td><td>47.94M</td><td>—</td><td>—</td></tr><tr><td>파파팡</td><td class="strong">135.74M</td><td>31.54M</td><td class="score-under-10m">6.85M</td><td>48.99M</td><td>48.36M</td><td>—</td><td>—</td></tr><tr><td>정글√</td><td class="strong">134.98M</td><td>23.44M</td><td>17.66M</td><td>65.88M</td><td>28.00M</td><td>—</td><td>—</td></tr><tr><td>소양강처남댁</td><td class="strong">133.17M</td><td>38.44M</td><td class="score-under-10m">9.40M</td><td>18.34M</td><td>66.99M</td><td>—</td><td>—</td></tr><tr><td>TomKim</td><td class="strong">130.84M</td><td>23.61M</td><td>14.55M</td><td>40.37M</td><td>52.31M</td><td>—</td><td>—</td></tr><tr><td>reno</td><td class="strong">130.53M</td><td>13.51M</td><td>17.75M</td><td>52.78M</td><td>46.49M</td><td>—</td><td>—</td></tr><tr><td>소양강처자</td><td class="strong">130.42M</td><td>32.32M</td><td>10.02M</td><td>32.02M</td><td>56.06M</td><td>—</td><td>—</td></tr><tr><td>Felix 용복°</td><td class="strong">129.85M</td><td>13.25M</td><td>23.32M</td><td>47.51M</td><td>45.77M</td><td>—</td><td>—</td></tr><tr><td>우라HIT</td><td class="strong">124.41M</td><td>37.14M</td><td class="score-under-10m">6.09M</td><td>28.94M</td><td>52.24M</td><td>—</td><td>—</td></tr><tr><td>푸우우</td><td class="strong">124.37M</td><td>16.68M</td><td>10.73M</td><td>51.49M</td><td>45.47M</td><td>—</td><td>—</td></tr><tr><td>HIT감자탕</td><td class="strong">123.20M</td><td>10.91M</td><td>15.46M</td><td>53.27M</td><td>43.56M</td><td>—</td><td>—</td></tr><tr><td>l아장l</td><td class="strong">119.05M</td><td>13.41M</td><td>10.99M</td><td>57.23M</td><td>37.42M</td><td>—</td><td>—</td></tr><tr><td>what??</td><td class="strong">117.29M</td><td>16.69M</td><td>16.66M</td><td>66.64M</td><td>17.30M</td><td>—</td><td>—</td></tr><tr><td>제천대성</td><td class="strong">115.55M</td><td>15.19M</td><td>14.08M</td><td>36.35M</td><td>49.93M</td><td>—</td><td>—</td></tr><tr><td>이정후</td><td class="strong">110.77M</td><td>11.72M</td><td>12.48M</td><td>56.86M</td><td>29.71M</td><td>—</td><td>—</td></tr><tr><td>리부자리</td><td class="strong">107.46M</td><td>23.10M</td><td class="score-under-10m">9.26M</td><td>50.64M</td><td>24.46M</td><td>—</td><td>—</td></tr><tr><td>yul</td><td class="strong">107.23M</td><td>25.64M</td><td>12.24M</td><td>41.70M</td><td>27.65M</td><td>—</td><td>—</td></tr><tr><td>명쥬명쥬</td><td class="strong">106.35M</td><td>30.70M</td><td class="score-under-10m">8.28M</td><td>30.44M</td><td>36.93M</td><td>—</td><td>—</td></tr><tr><td>현아곰도리</td><td class="strong">105.11M</td><td>24.05M</td><td>17.38M</td><td>15.43M</td><td>48.25M</td><td>—</td><td>—</td></tr><tr><td>소양강처녀</td><td class="strong">104.45M</td><td>16.80M</td><td class="score-under-10m">7.68M</td><td>14.82M</td><td>65.15M</td><td>—</td><td>—</td></tr><tr><td>난나나</td><td class="strong">103.76M</td><td>30.43M</td><td>12.33M</td><td>29.45M</td><td>31.55M</td><td>—</td><td>—</td></tr><tr><td>명듀명듀</td><td class="strong">103.60M</td><td>29.36M</td><td>11.32M</td><td>22.09M</td><td>40.83M</td><td>—</td><td>—</td></tr><tr><td>uow日青</td><td class="strong">103.26M</td><td>12.06M</td><td>11.75M</td><td>29.81M</td><td>49.64M</td><td>—</td><td>—</td></tr><tr><td>감자탕</td><td class="strong">101.72M</td><td>11.99M</td><td>16.66M</td><td>67.03M</td><td class="score-under-10m">6.04M</td><td>—</td><td>—</td></tr><tr><td>Максус</td><td class="strong">100.29M</td><td>30.81M</td><td>10.90M</td><td>23.00M</td><td>35.58M</td><td>—</td><td>—</td></tr><tr><td>황 비</td><td class="strong">97.95M</td><td>41.56M</td><td>12.63M</td><td>31.18M</td><td>12.58M</td><td>—</td><td>—</td></tr><tr><td>푸르미르</td><td class="strong">96.16M</td><td>27.57M</td><td>11.75M</td><td>18.22M</td><td>38.62M</td><td>—</td><td>—</td></tr><tr><td>Kinanoramyle</td><td class="strong">95.24M</td><td>19.92M</td><td>20.78M</td><td>17.44M</td><td>37.10M</td><td>—</td><td>—</td></tr><tr><td>달서역맥</td><td class="strong">95.21M</td><td>30.98M</td><td>14.38M</td><td>20.31M</td><td>29.54M</td><td>—</td><td>—</td></tr><tr><td>SergoN</td><td class="strong">95.19M</td><td class="score-under-10m">0</td><td>12.21M</td><td>33.24M</td><td>49.74M</td><td>—</td><td>—</td></tr><tr><td>PEPE</td><td class="strong">92.00M</td><td>16.68M</td><td>14.44M</td><td>31.51M</td><td>29.37M</td><td>—</td><td>—</td></tr><tr><td>토미애비</td><td class="strong">91.67M</td><td>22.73M</td><td>10.87M</td><td>27.34M</td><td>30.73M</td><td>—</td><td>—</td></tr><tr><td>아 슬 란</td><td class="strong">91.34M</td><td>12.36M</td><td>31.17M</td><td>27.66M</td><td>20.15M</td><td>—</td><td>—</td></tr><tr><td>Moscow</td><td class="strong">89.12M</td><td>11.68M</td><td>10.81M</td><td>38.47M</td><td>28.16M</td><td>—</td><td>—</td></tr><tr><td>누리누</td><td class="strong">87.39M</td><td>31.85M</td><td class="score-under-10m">6.84M</td><td>12.90M</td><td>35.80M</td><td>—</td><td>—</td></tr><tr><td>Peebaby</td><td class="strong">82.09M</td><td class="score-under-10m">8.47M</td><td>27.17M</td><td>14.61M</td><td>31.84M</td><td>—</td><td>—</td></tr><tr><td>로랑</td><td class="strong">80.84M</td><td>14.23M</td><td class="score-under-10m">9.82M</td><td>21.79M</td><td>35.00M</td><td>—</td><td>—</td></tr><tr><td>용신연화</td><td class="strong">80.08M</td><td>40.30M</td><td>11.26M</td><td>17.78M</td><td>10.74M</td><td>—</td><td>—</td></tr><tr><td>누리 nuri</td><td class="strong">78.47M</td><td>22.82M</td><td class="score-under-10m">9.13M</td><td>30.54M</td><td>15.98M</td><td>—</td><td>—</td></tr><tr><td>솔리솔</td><td class="strong">77.58M</td><td>17.29M</td><td>11.04M</td><td>28.65M</td><td>20.60M</td><td>—</td><td>—</td></tr><tr><td>오만도리</td><td class="strong">77.04M</td><td>14.78M</td><td>21.70M</td><td>16.47M</td><td>24.09M</td><td>—</td><td>—</td></tr><tr><td>친친</td><td class="strong">70.54M</td><td>13.25M</td><td>10.30M</td><td>35.78M</td><td>11.21M</td><td>—</td><td>—</td></tr><tr><td>多多關照</td><td class="strong">69.02M</td><td>11.29M</td><td>12.53M</td><td>25.34M</td><td>19.86M</td><td>—</td><td>—</td></tr><tr><td>도라이언방구</td><td class="strong">68.02M</td><td>27.24M</td><td>18.22M</td><td class="score-under-10m">5.39M</td><td>17.17M</td><td>—</td><td>—</td></tr><tr><td>멜로우</td><td class="strong">67.27M</td><td>27.91M</td><td>13.45M</td><td>17.37M</td><td class="score-under-10m">8.54M</td><td>—</td><td>—</td></tr><tr><td>uow沛沛玲</td><td class="strong">66.77M</td><td>28.46M</td><td>11.04M</td><td>15.14M</td><td>12.13M</td><td>—</td><td>—</td></tr><tr><td>滿分堡</td><td class="strong">59.60M</td><td>19.52M</td><td class="score-under-10m">7.24M</td><td>10.98M</td><td>21.86M</td><td>—</td><td>—</td></tr><tr><td>망쿠</td><td class="strong">57.59M</td><td>12.23M</td><td>12.19M</td><td>21.91M</td><td>11.26M</td><td>—</td><td>—</td></tr><tr><td>잠자는 팬더</td><td class="strong">57.47M</td><td>18.63M</td><td class="score-under-10m">4.51M</td><td>19.40M</td><td>14.93M</td><td>—</td><td>—</td></tr><tr><td>이불속곰탱이</td><td class="strong">41.76M</td><td>15.78M</td><td class="score-under-10m">5.60M</td><td>11.52M</td><td class="score-under-10m">8.86M</td><td>—</td><td>—</td></tr><tr><td>도라이언1호</td><td class="strong">29.21M</td><td class="score-under-10m">3.68M</td><td class="score-under-10m">6.69M</td><td class="score-under-10m">1.33M</td><td>17.51M</td><td>—</td><td>—</td></tr><tr><td>_RIMA</td><td class="strong">24.27M</td><td class="score-under-10m">4.59M</td><td>12.66M</td><td class="score-under-10m">0</td><td class="score-under-10m">7.02M</td><td>—</td><td>—</td></tr><tr><td>전 복</td><td class="strong">11.19M</td><td class="score-under-10m">707.40K</td><td class="score-under-10m">2.17M</td><td class="score-under-10m">2.22M</td><td class="score-under-10m">6.09M</td><td>—</td><td>—</td></tr></tbody>
 </table>
 </div>
 <div class="notice">금·토요일은 아직 미집계라 ‘—’로 표시합니다. 기존 월·화·수 자료와 닉네임이 정확히 연결되지 않은 항목은 임의 추정하지 않고 ‘—’로 남겼습니다.</div>
-</section>
-<section class="section">
-<div class="sectionhead"><h2>요일별 10M 미만 동맹원</h2><span>화·수요일은 합산점수 기준</span></div>
+</details>
+<details class="section accordion-section" open=""><summary class="sectionhead accordion-head"><h2>요일별 10M 미만 동맹원</h2><span>화·수요일은 합산점수 기준</span><span class="native-chevron">⌄</span></summary>
 <div class="lowgrid merged-lowgrid">
 <section class="lowcard">
 <div class="lowhead"><h3>월요일</h3><span>6명</span></div>
@@ -949,7 +1049,7 @@ th:nth-child(1),td:nth-child(1),th:nth-child(2),td:nth-child(2){text-align:left}
 <div class="lowrow"><span>전 복</span><strong>4.39M</strong></div><div class="lowrow"><span>도라이언1호</span><strong>8.02M</strong></div>
 </section>
 <section class="lowcard">
-<div class="lowhead"><h3>목요일</h3><span>6명</span></div>
+<div class="lowhead"><h3>목요일</h3><span>5명</span></div>
 <div class="lowrow"><span>감자탕</span><strong>6.04M</strong></div>
 <div class="lowrow"><span>전 복</span><strong>6.09M</strong></div>
 <div class="lowrow"><span>_RIMA</span><strong>7.02M</strong></div>
@@ -966,9 +1066,33 @@ th:nth-child(1),td:nth-child(1),th:nth-child(2),td:nth-child(2){text-align:left}
 </section>
 </div>
 <div class="notice">월·목·금·토는 해당 요일 점수 기준이며, 화·수는 두 요일 합산점수가 10.00M보다 낮은 동맹원만 표시합니다.</div>
-</section>
+</details>
 </div>
 <script>
+// 동맹원별 요일별 점수표에서 월~토 점수가 10M 미만인 셀만 배경색 표시
+(function highlightScoresUnder10M(){
+  const table=document.querySelector('.weekday-score-table');
+  if(!table) return;
+
+  const toNumber=value=>{
+    const text=value.trim().replace(/,/g,'');
+    if(!text || text==='-' || text==='—') return null;
+    const match=text.match(/^([0-9]+(?:\.[0-9]+)?)\s*([KMB])?$/i);
+    if(!match) return null;
+    const amount=parseFloat(match[1]);
+    const unit=(match[2]||'').toUpperCase();
+    const multiplier=unit==='B'?1e9:unit==='M'?1e6:unit==='K'?1e3:1;
+    return amount*multiplier;
+  };
+
+  table.querySelectorAll('tbody tr').forEach(row=>{
+    Array.from(row.cells).slice(2,8).forEach(cell=>{
+      const score=toNumber(cell.textContent);
+      cell.classList.toggle('score-under-10m',score!==null && score<10000000);
+    });
+  });
+})();
+
 const battleHistory = {
   "11-4": {
     league: 11,
@@ -989,7 +1113,7 @@ const battleHistory = {
 };
 const fmtCompact = n => {
   if(n == null) return "-";
-  if(n >= 1e9) return (n/1e9).toFixed(3)+"B";
+  if(n >= 1e9) return (n/1e9).toFixed(2)+"B";
   if(n >= 1e6) return (n/1e6).toFixed(2)+"M";
   if(n >= 1e3) return (n/1e3).toFixed(1)+"K";
   return n.toLocaleString("ko-KR");
@@ -1038,5 +1162,6 @@ historyDetails.addEventListener('toggle',()=>{
 renderHistory();
 
 </script>
+
 </body>
 </html>
