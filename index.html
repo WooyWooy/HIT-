@@ -781,8 +781,6 @@ details.accordion-section>.accordion-head:focus-visible{outline:2px solid var(--
   .section-toggle { right: 10px; width: 28px; height: 28px; }
 }
 </style>
-
-
 <style>
 .hit-win .hit-side{
   background:#eef4ff;
@@ -813,7 +811,128 @@ details.accordion-section>.accordion-head:focus-visible{outline:2px solid var(--
   font-weight:900;
 }
 </style>
-</head>
+<style>
+.saturday-result-only .winner-strip em{
+  margin-left:auto;
+  min-width:34px;
+  height:24px;
+  padding:0 9px;
+  border-radius:999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  background:#2f6df6;
+  color:#fff;
+  font-style:normal;
+  font-size:12px;
+  font-weight:900;
+}
+</style>
+<style>
+.pending-card .score-duel .side{opacity:.72}
+.pending-card .waiting-strip{
+  background:#f7f9fc;
+  color:#7b8798;
+  border-top:1px solid #e7ebf1;
+}
+.lowempty{
+  padding:14px 12px;
+  text-align:center;
+  color:#98a2b3;
+  font-size:13px;
+}
+</style>
+<style>
+/* 주요 라벨과 요약 문구를 한 줄로 정돈 */
+.overall-score > span,
+.overall-score > div,
+.overall-score small,
+.sectionhead h2,
+.sectionhead > span,
+.history-title-row h3,
+.history-title-row p,
+.history-kicker,
+.history-score-summary strong,
+.history-score-summary small,
+.history-match-line .team,
+.history-match-line .team small,
+.history-match-line .team strong,
+.history-match-line .team em,
+.day-card-top div,
+.day-card-top div b,
+.day-card-top div span,
+.day-card-top > strong,
+.waiting-strip,
+.winner-strip,
+.score-sub,
+.lowhead h3,
+.lowhead span {
+  white-space: nowrap;
+}
+
+.overall-score,
+.sectionhead,
+.history-title-row,
+.history-score-summary,
+.history-match-line,
+.day-card-top,
+.waiting-strip,
+.winner-strip,
+.lowhead {
+  min-width: 0;
+}
+
+.sectionhead h2,
+.sectionhead > span,
+.history-title-row p,
+.waiting-strip,
+.score-sub {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 좁은 화면에서 한 줄 유지하면서 크기만 자연스럽게 축소 */
+@media (max-width: 720px){
+  .overall-score > span{font-size:12px}
+  .overall-score > div b{font-size:28px}
+  .sectionhead h2{font-size:17px}
+  .sectionhead > span{font-size:12px}
+  .history-title-row p{font-size:12px}
+  .day-card-top div span,
+  .day-card-top > strong{font-size:12px}
+  .waiting-strip{font-size:11px}
+  .history-match-line .team strong{font-size:16px}
+}
+
+@media (max-width: 430px){
+  .overall-score{gap:8px}
+  .overall-score > div b{font-size:24px}
+  .sectionhead{gap:8px}
+  .sectionhead h2{font-size:15px}
+  .sectionhead > span{font-size:11px; max-width:42vw}
+  .history-title-row p{max-width:55vw}
+  .day-card-top div b{font-size:11px}
+  .day-card-top div span,
+  .day-card-top > strong{font-size:11px}
+}
+</style>
+<style>
+.history-search-panel{margin-bottom:12px}
+.history-search-panel>label{display:block;margin-bottom:8px;font-size:13px;font-weight:800;color:var(--text)}
+.history-search-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px}
+.history-search-row input{width:100%;min-width:0;height:42px;padding:0 13px;border:1px solid #d9e0ea;border-radius:12px;background:#fff;color:var(--text);font-size:14px;outline:none}
+.history-search-row input:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(47,109,246,.10)}
+.history-search-row button{height:42px;padding:0 15px;border:0;border-radius:12px;background:var(--blue);color:#fff;font-size:13px;font-weight:800;white-space:nowrap;cursor:pointer}
+.history-search-row button.secondary{background:#e9eef6;color:#445066}
+.history-search-message{margin-top:9px;color:var(--muted);font-size:12px}
+.history-search-results{display:grid;gap:8px;margin-top:10px}
+.history-search-results[hidden]{display:none!important}
+.history-search-result{width:100%;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;padding:12px 14px;border:1px solid #dce3ed;border-radius:14px;background:#fff;text-align:left;cursor:pointer}
+.history-search-result span{color:#667085;font-size:12px;white-space:nowrap}
+.history-search-result strong{color:#182230;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.history-search-result em{color:var(--blue);font-size:13px;font-style:normal;font-weight:900;white-space:nowrap}
+@media(max-width:560px){.history-search-row{grid-template-columns:minmax(0,1fr) auto}.history-search-row .secondary{grid-column:1/-1;width:100%}.history-search-result{grid-template-columns:1fr auto}.history-search-result span{grid-column:1/-1}}
+</style></head>
 <body>
 <div class="wrap">
 <header class="hero">
@@ -821,14 +940,14 @@ details.accordion-section>.accordion-head:focus-visible{outline:2px solid var(--
 <div>
 <div class="eyebrow">HIT ALLIANCE BATTLE RECORD</div>
 <h1>HIT 동맹대결 대시보드</h1>
-<div class="sub">11회 동맹리그 · 4주차 · 현재 운영 및 상대 동맹 과거 전적 분석</div>
+<div class="sub">11회 동맹리그 · 5주차 · 현재 운영 및 상대 동맹 과거 전적 분석</div>
 </div>
 <div class="hero-badge">HONOR IN TILES</div>
 </div>
 </header>
 <details class="section accordion-section" open=""><summary class="sectionhead accordion-head">
 <h2>현재 상대 종합 비교</h2>
-<span>11회 동맹리그 · 4주차</span>
+<span>11회 동맹리그 · 5주차</span>
 <span class="native-chevron">⌄</span></summary>
 <div class="panel comparison-board">
 <div class="overall-match">
@@ -839,111 +958,106 @@ details.accordion-section>.accordion-head:focus-visible{outline:2px solid var(--
 </div>
 <div class="overall-score">
 <span>주간 승점</span>
-<div><b>2</b><em>:</em><b class="red">7</b></div>
-<small>5일차 종료 기준</small>
+<div><b>0</b><em>:</em><b class="red">0</b></div>
+<small>대결 시작 전</small>
 </div>
 <div class="overall-team stb-overall">
-<span>#192</span>
-<strong>STB</strong>
-<small>Storm Bears</small>
+<span>#195</span>
+<strong>OxO</strong>
+<small>Server 195</small>
 </div>
 </div>
-<div class="day-card-grid">
-<article class="day-card completed stb-win">
+<div class="day-card-grid"><article class="day-card pending-card">
 <div class="day-card-top">
 <div><b>1일차</b><span>월요일</span></div>
 <strong>레이더 특훈</strong>
 </div>
 <div class="score-duel">
 <div class="side hit-side">
-<span>HIT</span><strong>2.72</strong><small>B</small><em class="hit-average">인당 27.72M</em>
+<span>HIT</span><strong>-</strong>
 </div>
 <div class="duel-mark">VS</div>
-<div class="side stb-side winner-side">
-<span>STB</span><strong>3.88</strong><small>B</small>
+<div class="side stb-side">
+<span>OxO</span><strong>-</strong>
 </div>
 </div>
-<div class="winner-strip"><span>WINNER</span><strong>STB</strong><em>+1</em></div>
-</article>
-<article class="day-card completed stb-win">
+<div class="waiting-strip">점수 입력 대기 · 승리 +1</div>
+</article><article class="day-card pending-card">
 <div class="day-card-top">
 <div><b>2일차</b><span>화요일</span></div>
 <strong>기지 건설</strong>
 </div>
 <div class="score-duel">
 <div class="side hit-side">
-<span>HIT</span><strong>1.49</strong><small>B</small><em class="hit-average">인당 15.19M</em>
+<span>HIT</span><strong>-</strong>
 </div>
 <div class="duel-mark">VS</div>
-<div class="side stb-side winner-side">
-<span>STB</span><strong>1.81</strong><small>B</small>
+<div class="side stb-side">
+<span>OxO</span><strong>-</strong>
 </div>
 </div>
-<div class="winner-strip"><span>WINNER</span><strong>STB</strong><em>+2</em></div>
-</article>
-<article class="day-card completed stb-win">
+<div class="waiting-strip">점수 입력 대기 · 승리 +2</div>
+</article><article class="day-card pending-card">
 <div class="day-card-top">
 <div><b>3일차</b><span>수요일</span></div>
 <strong>기술 연구</strong>
 </div>
 <div class="score-duel">
 <div class="side hit-side">
-<span>HIT</span><strong>4.49</strong><small>B</small><em class="hit-average">인당 45.83M</em>
+<span>HIT</span><strong>-</strong>
 </div>
 <div class="duel-mark">VS</div>
-<div class="side stb-side winner-side">
-<span>STB</span><strong>6.19</strong><small>B</small>
+<div class="side stb-side">
+<span>OxO</span><strong>-</strong>
 </div>
 </div>
-<div class="winner-strip"><span>WINNER</span><strong>STB</strong><em>+2</em></div>
-</article>
-<article class="day-card completed stb-win">
+<div class="waiting-strip">점수 입력 대기 · 승리 +2</div>
+</article><article class="day-card pending-card">
 <div class="day-card-top">
 <div><b>4일차</b><span>목요일</span></div>
 <strong>영웅 육성</strong>
 </div>
 <div class="score-duel">
 <div class="side hit-side">
-<span>HIT</span><strong>4.54</strong><small>B</small><em class="hit-average">인당 49.87M</em>
+<span>HIT</span><strong>-</strong>
 </div>
 <div class="duel-mark">VS</div>
-<div class="side stb-side winner-side">
-<span>STB</span><strong>5.31</strong><small>B</small>
+<div class="side stb-side">
+<span>OxO</span><strong>-</strong>
 </div>
 </div>
-<div class="winner-strip"><span>WINNER</span><strong>STB</strong><em>+2</em></div>
-</article>
-<article class="day-card win-card hit-win">
+<div class="waiting-strip">점수 입력 대기 · 승리 +2</div>
+</article><article class="day-card pending-card">
 <div class="day-card-top">
 <div><b>5일차</b><span>금요일</span></div>
 <strong>전투 준비</strong>
 </div>
 <div class="score-duel">
 <div class="side hit-side">
-<span>HIT</span><strong>1.63</strong><small>B</small>
-<em class="hit-average">인당 18.15M</em>
+<span>HIT</span><strong>-</strong>
 </div>
 <div class="duel-mark">VS</div>
 <div class="side stb-side">
-<span>STB</span><strong>1.45</strong><small>B</small>
+<span>OxO</span><strong>-</strong>
 </div>
 </div>
-<div class="winner-strip hit-winner">
-<span>WINNER</span><strong>HIT</strong><em>+2</em>
-</div>
-</article>
-<article class="day-card pending-card">
+<div class="waiting-strip">점수 입력 대기 · 승리 +2</div>
+</article><article class="day-card pending-card">
 <div class="day-card-top">
 <div><b>6일차</b><span>토요일</span></div>
 <strong>적군 처치</strong>
 </div>
-<div class="pending-content">
-<div class="pending-icon">06</div>
-<span>점수 입력 대기</span>
+<div class="score-duel">
+<div class="side hit-side">
+<span>HIT</span><strong>-</strong>
 </div>
-<div class="waiting-strip">UPCOMING</div>
-</article>
+<div class="duel-mark">VS</div>
+<div class="side stb-side">
+<span>OxO</span><strong>-</strong>
 </div>
+</div>
+<div class="waiting-strip">점수 입력 대기 · 승리 +4</div>
+</article></div>
 </div>
 </details>
 <section class="section history-section">
@@ -963,11 +1077,20 @@ details.accordion-section>.accordion-head:focus-visible{outline:2px solid var(--
 <div class="sectionhead history-title-row">
 <div>
 <h2>과거 상대 전적</h2>
-<p>개인 기록은 저장하지 않고, HIT와 상대 동맹의 요일별 총점만 누적합니다.</p>
+<p>종료된 상대전은 요일별 동맹 총점과 승점으로 보관하며, 다시 만났을 때 검색할 수 있습니다.</p>
 </div>
 <span>상대 재대결 시 목표점수 참고</span>
 </div>
-<div class="history-toolbar panel">
+<div class="history-search-panel panel" id="historySearchPanel">
+<label for="historySearchInput">상대팀 검색</label>
+<div class="history-search-row">
+<input autocomplete="off" id="historySearchInput" placeholder="STB, 192, #192, Storm Bears" type="search"/>
+<button id="historySearchButton" type="button">검색</button>
+<button class="secondary" id="historySearchReset" type="button">초기화</button>
+</div>
+<div class="history-search-message" id="historySearchMessage">상대팀을 검색하거나 주차를 선택하면 기록이 표시됩니다.</div>
+<div class="history-search-results" hidden="" id="historySearchResults"></div>
+</div><div class="history-toolbar panel">
 <label>
 <span>리그 회차</span>
 <select id="historyLeague">
@@ -976,19 +1099,14 @@ details.accordion-section>.accordion-head:focus-visible{outline:2px solid var(--
 </label>
 <label>
 <span>주차</span>
-<select id="historyWeek">
-<option value="1">1주차 · 기록 없음</option>
-<option value="2">2주차 · 기록 없음</option>
-<option value="3">3주차 · 기록 없음</option>
-<option selected="" value="4">4주차 · STB</option>
-</select>
+<select id="historyWeek"><option selected="selected" value="">주차 선택</option><option value="1">1주차 · 기록 없음</option><option value="2">2주차 · 기록 없음</option><option value="3">3주차 · 기록 없음</option><option value="4">4주차 · STB</option></select>
 </label>
 </div>
-<div class="history-empty panel" hidden="" id="historyEmpty">
+<div class="history-empty panel" hidden="hidden" id="historyEmpty">
 <strong>저장된 대결 기록이 없습니다.</strong>
 <span>1~3주차는 기록 없음으로 유지됩니다.</span>
 </div>
-<div class="history-content" id="historyContent">
+<div class="history-content" hidden="hidden" id="historyContent">
 <div class="history-summary panel">
 <div class="history-opponent">
 <span class="history-kicker">11회 동맹리그 · 4주차</span>
@@ -999,14 +1117,9 @@ details.accordion-section>.accordion-head:focus-visible{outline:2px solid var(--
 </div>
 </div>
 <div class="history-score-summary">
-<span>현재 승점</span>
-<strong>0 : 7</strong>
-<small>5일차 종료 스냅샷</small>
-</div>
-<div class="history-storage-note">
-<span>저장 범위</span>
-<strong>요일별 동맹 총점</strong>
-<small>HIT 인당 평균만 총점 아래 보조 표기</small>
+<span>최종 스코어</span>
+<strong>6 : 7</strong>
+<small>6일차 종료 확정 기록</small>
 </div>
 </div>
 <div class="history-table-wrap panel">
@@ -1050,7 +1163,12 @@ details.accordion-section>.accordion-head:focus-visible{outline:2px solid var(--
 <td><span class="score-main">1.45B</span></td>
 <td><span class="wl-mark wl-win">W</span></td>
 </tr>
-<tr><td><span class="day-main">토요일</span><small class="day-theme">적군 처치</small></td><td class="pending">-</td><td class="pending">-</td><td><span class="wl-mark wl-wait">-</span></td></tr>
+<tr>
+<td><span class="day-main">토요일</span><small class="day-theme">적군 처치</small></td>
+<td><span class="score-main">-</span><small class="score-sub">종합점수 미확인</small></td>
+<td><span class="score-main">-</span></td>
+<td><span class="wl-mark wl-win">W</span></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -1067,45 +1185,18 @@ details.accordion-section>.accordion-head:focus-visible{outline:2px solid var(--
 <div class="tablewrap panel">
 <table class="ranking-table weekday-score-table">
 <thead><tr><th>닉네임</th><th>누적</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr></thead>
-<tbody><tr><td>장비</td><td class="strong">676.38M</td><td>25.13M</td><td>28.01M</td><td>222.21M</td><td>392.28M</td><td class="score-under-10m">8.75M</td><td>—</td></tr><tr><td>똠</td><td class="strong">399.48M</td><td>128.67M</td><td>45.79M</td><td>99.40M</td><td>90.86M</td><td>34.76M</td><td>—</td></tr><tr><td>우이</td><td class="strong">376.23M</td><td>69.82M</td><td>22.50M</td><td>206.22M</td><td>66.40M</td><td>11.29M</td><td>—</td></tr><tr><td>짜야</td><td class="strong">372.18M</td><td>66.99M</td><td>21.77M</td><td>170.79M</td><td>97.05M</td><td>15.58M</td><td>—</td></tr><tr><td>{HIT}~Ching菁</td><td class="strong">363.11M</td><td>46.91M</td><td>26.16M</td><td>108.19M</td><td>129.78M</td><td>52.07M</td><td>—</td></tr><tr><td>☆*•夜&amp;月☆*•</td><td class="strong">298.05M</td><td>38.80M</td><td>23.07M</td><td>109.71M</td><td>112.72M</td><td>13.75M</td><td>—</td></tr><tr><td>황 후</td><td class="strong">279.96M</td><td>47.33M</td><td class="score-under-10m">9.22M</td><td>66.64M</td><td>58.23M</td><td>98.54M</td><td>—</td></tr><tr><td>이집사</td><td class="strong">279.20M</td><td>66.52M</td><td>39.45M</td><td>70.42M</td><td>78.25M</td><td>24.56M</td><td>—</td></tr><tr><td>젬마스터</td><td class="strong">274.01M</td><td>23.46M</td><td>21.99M</td><td>56.25M</td><td>154.46M</td><td>17.85M</td><td>—</td></tr><tr><td>요기조기</td><td class="strong">262.94M</td><td>34.22M</td><td>25.70M</td><td>111.99M</td><td>77.23M</td><td>13.80M</td><td>—</td></tr><tr><td>하후돈°*✤</td><td class="strong">260.69M</td><td>29.40M</td><td>28.01M</td><td>113.48M</td><td>50.86M</td><td>38.94M</td><td>—</td></tr><tr><td>HIT._CHUB。</td><td class="strong">251.74M</td><td>91.23M</td><td>14.73M</td><td>41.07M</td><td>91.85M</td><td>12.86M</td><td>—</td></tr><tr><td>월루천향</td><td class="strong">247.80M</td><td>35.59M</td><td>13.97M</td><td>99.53M</td><td>64.53M</td><td>34.18M</td><td>—</td></tr><tr><td>일집사</td><td class="strong">243.53M</td><td>47.81M</td><td>10.68M</td><td>78.09M</td><td>94.30M</td><td>12.65M</td><td>—</td></tr><tr><td>레드™</td><td class="strong">243.21M</td><td>45.22M</td><td>21.96M</td><td>98.32M</td><td>65.23M</td><td>12.48M</td><td>—</td></tr><tr><td>성게</td><td class="strong">229.28M</td><td>39.33M</td><td class="score-under-10m">8.71M</td><td>65.17M</td><td>104.70M</td><td>11.37M</td><td>—</td></tr><tr><td>빵뽕꼬고</td><td class="strong">223.80M</td><td>61.66M</td><td>14.09M</td><td>53.05M</td><td>79.86M</td><td>15.14M</td><td>—</td></tr><tr><td>소양강처자</td><td class="strong">221.13M</td><td>32.32M</td><td>10.02M</td><td>32.02M</td><td>56.06M</td><td>90.71M</td><td>—</td></tr><tr><td>HellSpawn</td><td class="strong">212.75M</td><td>64.48M</td><td>27.36M</td><td>69.91M</td><td>36.82M</td><td>14.18M</td><td>—</td></tr><tr><td>EUNHARI</td><td class="strong">211.62M</td><td>46.74M</td><td>24.42M</td><td>48.74M</td><td>65.89M</td><td>25.83M</td><td>—</td></tr><tr><td>Survivor.00001</td><td class="strong">207.95M</td><td>13.21M</td><td>12.72M</td><td>45.96M</td><td>124.45M</td><td>11.61M</td><td>—</td></tr><tr><td>도라이언</td><td class="strong">204.16M</td><td>25.64M</td><td>11.37M</td><td>64.41M</td><td>77.97M</td><td>24.77M</td><td>—</td></tr><tr><td>직진왕김빠꾸</td><td class="strong">200.77M</td><td>13.80M</td><td class="score-under-10m">7.25M</td><td>126.68M</td><td>46.11M</td><td class="score-under-10m">6.93M</td><td>—</td></tr><tr><td>AAA就</td><td class="strong">199.41M</td><td>40.42M</td><td>16.29M</td><td>56.03M</td><td>68.19M</td><td>18.48M</td><td>—</td></tr><tr><td>물오리</td><td class="strong">198.79M</td><td>81.12M</td><td>23.47M</td><td>29.90M</td><td>48.85M</td><td>15.45M</td><td>—</td></tr><tr><td>Schlumpf</td><td class="strong">196.64M</td><td>63.64M</td><td>20.98M</td><td>28.48M</td><td>53.02M</td><td>30.52M</td><td>—</td></tr><tr><td>오드리햇반</td><td class="strong">195.61M</td><td>31.82M</td><td>15.00M</td><td>89.74M</td><td>47.43M</td><td>11.62M</td><td>—</td></tr><tr><td>한국유저</td><td class="strong">193.69M</td><td>32.84M</td><td>39.93M</td><td>55.67M</td><td>51.39M</td><td>13.86M</td><td>—</td></tr><tr><td>우이이</td><td class="strong">183.65M</td><td class="score-under-10m">6.81M</td><td class="score-under-10m">6.50M</td><td>125.41M</td><td>37.75M</td><td class="score-under-10m">7.18M</td><td>—</td></tr><tr><td>지휘관</td><td class="strong">177.63M</td><td>50.53M</td><td>27.61M</td><td>28.85M</td><td>62.79M</td><td class="score-under-10m">7.85M</td><td>—</td></tr><tr><td>영포티</td><td class="strong">176.19M</td><td>29.54M</td><td>20.47M</td><td>78.71M</td><td>21.04M</td><td>26.43M</td><td>—</td></tr><tr><td>7thSIN</td><td class="strong">164.92M</td><td>36.86M</td><td>13.80M</td><td>46.84M</td><td>55.82M</td><td>11.60M</td><td>—</td></tr><tr><td>Felix 용복°</td><td class="strong">163.68M</td><td>13.25M</td><td>23.32M</td><td>47.51M</td><td>45.77M</td><td>33.83M</td><td>—</td></tr><tr><td>k pop</td><td class="strong">161.60M</td><td>28.09M</td><td>16.73M</td><td>43.35M</td><td>47.94M</td><td>25.49M</td><td>—</td></tr><tr><td>풀짜응</td><td class="strong">160.47M</td><td>11.85M</td><td>11.88M</td><td>58.50M</td><td>63.19M</td><td>15.05M</td><td>—</td></tr><tr><td>스나이퍼</td><td class="strong">159.33M</td><td>26.10M</td><td>36.46M</td><td>43.47M</td><td>33.49M</td><td>19.81M</td><td>—</td></tr><tr><td>소양강처남</td><td class="strong">155.32M</td><td>31.39M</td><td class="score-under-10m">6.89M</td><td>54.46M</td><td>48.53M</td><td>14.05M</td><td>—</td></tr><tr><td>소후돈°*✤</td><td class="strong">154.63M</td><td>20.36M</td><td>16.73M</td><td>25.22M</td><td>77.85M</td><td>14.47M</td><td>—</td></tr><tr><td>Monique</td><td class="strong">152.98M</td><td>57.26M</td><td>29.77M</td><td>22.44M</td><td>27.37M</td><td>16.14M</td><td>—</td></tr><tr><td>파파팡</td><td class="strong">151.81M</td><td>31.54M</td><td class="score-under-10m">6.85M</td><td>48.99M</td><td>48.36M</td><td>16.07M</td><td>—</td></tr><tr><td>TomKim</td><td class="strong">151.77M</td><td>23.61M</td><td>14.55M</td><td>40.37M</td><td>52.31M</td><td>20.93M</td><td>—</td></tr><tr><td>정글√</td><td class="strong">151.15M</td><td>23.44M</td><td>17.66M</td><td>65.88M</td><td>28.00M</td><td>16.17M</td><td>—</td></tr><tr><td>푸우우</td><td class="strong">150.46M</td><td>16.68M</td><td>10.73M</td><td>51.49M</td><td>45.47M</td><td>26.09M</td><td>—</td></tr><tr><td>Kayako</td><td class="strong">150.44M</td><td>18.18M</td><td>55.39M</td><td>22.58M</td><td>41.20M</td><td>13.09M</td><td>—</td></tr><tr><td>소양강처남댁</td><td class="strong">146.37M</td><td>38.44M</td><td class="score-under-10m">9.40M</td><td>18.34M</td><td>66.99M</td><td>13.20M</td><td>—</td></tr><tr><td>reno</td><td class="strong">140.21M</td><td>13.51M</td><td>17.75M</td><td>52.78M</td><td>46.49M</td><td class="score-under-10m">9.68M</td><td>—</td></tr><tr><td>우라HIT</td><td class="strong">131.51M</td><td>37.14M</td><td class="score-under-10m">6.09M</td><td>28.94M</td><td>52.24M</td><td class="score-under-10m">7.10M</td><td>—</td></tr><tr><td>HIT감자탕</td><td class="strong">131.31M</td><td>10.91M</td><td>15.46M</td><td>53.27M</td><td>43.56M</td><td class="score-under-10m">8.11M</td><td>—</td></tr><tr><td>what??</td><td class="strong">130.53M</td><td>16.69M</td><td>16.66M</td><td>66.64M</td><td>17.30M</td><td>13.24M</td><td>—</td></tr><tr><td>제천대성</td><td class="strong">130.33M</td><td>15.19M</td><td>14.08M</td><td>36.35M</td><td>49.93M</td><td>14.78M</td><td>—</td></tr><tr><td>l아장l</td><td class="strong">129.98M</td><td>13.41M</td><td>10.99M</td><td>57.23M</td><td>37.42M</td><td>10.93M</td><td>—</td></tr><tr><td>명듀명듀</td><td class="strong">128.03M</td><td>29.36M</td><td>11.32M</td><td>22.09M</td><td>40.83M</td><td>24.43M</td><td>—</td></tr><tr><td>푸르미르</td><td class="strong">127.05M</td><td>27.57M</td><td>11.75M</td><td>18.22M</td><td>38.62M</td><td>30.89M</td><td>—</td></tr><tr><td>명쥬명쥬</td><td class="strong">126.46M</td><td>30.70M</td><td class="score-under-10m">8.28M</td><td>30.44M</td><td>36.93M</td><td>20.11M</td><td>—</td></tr><tr><td>황 비</td><td class="strong">124.34M</td><td>41.56M</td><td>12.63M</td><td>31.18M</td><td>12.58M</td><td>26.39M</td><td>—</td></tr><tr><td>현아곰도리</td><td class="strong">123.88M</td><td>24.05M</td><td>17.38M</td><td>15.43M</td><td>48.25M</td><td>18.77M</td><td>—</td></tr><tr><td>이정후</td><td class="strong">123.51M</td><td>11.72M</td><td>12.48M</td><td>56.86M</td><td>29.71M</td><td>12.74M</td><td>—</td></tr><tr><td>난나나</td><td class="strong">121.31M</td><td>30.43M</td><td>12.33M</td><td>29.45M</td><td>31.55M</td><td>17.55M</td><td>—</td></tr><tr><td>리부자리</td><td class="strong">118.74M</td><td>23.10M</td><td class="score-under-10m">9.26M</td><td>50.64M</td><td>24.46M</td><td>11.28M</td><td>—</td></tr><tr><td>소양강처녀</td><td class="strong">117.50M</td><td>16.80M</td><td class="score-under-10m">7.68M</td><td>14.82M</td><td>65.15M</td><td>13.05M</td><td>—</td></tr><tr><td>yul</td><td class="strong">117.32M</td><td>25.64M</td><td>12.24M</td><td>41.70M</td><td>27.65M</td><td>10.09M</td><td>—</td></tr><tr><td>uow日青</td><td class="strong">115.99M</td><td>12.06M</td><td>11.75M</td><td>29.81M</td><td>49.64M</td><td>12.73M</td><td>—</td></tr><tr><td>아 슬 란</td><td class="strong">114.74M</td><td>12.36M</td><td>31.17M</td><td>27.66M</td><td>20.15M</td><td>23.40M</td><td>—</td></tr><tr><td>감자탕</td><td class="strong">114.66M</td><td>11.99M</td><td>16.66M</td><td>67.03M</td><td class="score-under-10m">6.04M</td><td>12.94M</td><td>—</td></tr><tr><td>Максус</td><td class="strong">110.72M</td><td>30.81M</td><td>10.90M</td><td>23.00M</td><td>35.58M</td><td>10.43M</td><td>—</td></tr><tr><td>Kinanoramyle</td><td class="strong">108.07M</td><td>19.92M</td><td>20.78M</td><td>17.44M</td><td>37.10M</td><td>12.83M</td><td>—</td></tr><tr><td>PEPE</td><td class="strong">107.39M</td><td>16.68M</td><td>14.44M</td><td>31.51M</td><td>29.37M</td><td>15.39M</td><td>—</td></tr><tr><td>SergoN</td><td class="strong">107.30M</td><td class="score-under-10m">0</td><td>12.21M</td><td>33.24M</td><td>49.74M</td><td>12.11M</td><td>—</td></tr><tr><td>달서역맥</td><td class="strong">106.33M</td><td>30.98M</td><td>14.38M</td><td>20.31M</td><td>29.54M</td><td>11.12M</td><td>—</td></tr><tr><td>용신연화</td><td class="strong">106.22M</td><td>40.30M</td><td>11.26M</td><td>17.78M</td><td>10.74M</td><td>26.14M</td><td>—</td></tr><tr><td>토미애비</td><td class="strong">103.16M</td><td>22.73M</td><td>10.87M</td><td>27.34M</td><td>30.73M</td><td>11.49M</td><td>—</td></tr><tr><td>Moscow</td><td class="strong">102.75M</td><td>11.68M</td><td>10.81M</td><td>38.47M</td><td>28.16M</td><td>13.63M</td><td>—</td></tr><tr><td>누리누</td><td class="strong">98.37M</td><td>31.85M</td><td class="score-under-10m">6.84M</td><td>12.90M</td><td>35.80M</td><td>10.98M</td><td>—</td></tr><tr><td>로랑</td><td class="strong">96.60M</td><td>14.23M</td><td class="score-under-10m">9.82M</td><td>21.79M</td><td>35.00M</td><td>15.76M</td><td>—</td></tr><tr><td>오만도리</td><td class="strong">93.13M</td><td>14.78M</td><td>21.70M</td><td>16.47M</td><td>24.09M</td><td>16.09M</td><td>—</td></tr><tr><td>Peebaby</td><td class="strong">91.23M</td><td class="score-under-10m">8.47M</td><td>27.17M</td><td>14.61M</td><td>31.84M</td><td class="score-under-10m">9.14M</td><td>—</td></tr><tr><td>솔리솔</td><td class="strong">87.65M</td><td>17.29M</td><td>11.04M</td><td>28.65M</td><td>20.60M</td><td>10.07M</td><td>—</td></tr><tr><td>친친</td><td class="strong">87.02M</td><td>13.25M</td><td>10.30M</td><td>35.78M</td><td>11.21M</td><td>16.48M</td><td>—</td></tr><tr><td>uow沛沛玲</td><td class="strong">84.77M</td><td>28.46M</td><td>11.04M</td><td>15.14M</td><td>12.13M</td><td>18.00M</td><td>—</td></tr><tr><td>누리 nuri</td><td class="strong">81.74M</td><td>22.82M</td><td class="score-under-10m">9.13M</td><td>30.54M</td><td>15.98M</td><td class="score-under-10m">3.27M</td><td>—</td></tr><tr><td>도라이언방구</td><td class="strong">81.44M</td><td>27.24M</td><td>18.22M</td><td class="score-under-10m">5.39M</td><td>17.17M</td><td>13.42M</td><td>—</td></tr><tr><td>多多關照</td><td class="strong">81.38M</td><td>11.29M</td><td>12.53M</td><td>25.34M</td><td>19.86M</td><td>12.36M</td><td>—</td></tr><tr><td>멜로우</td><td class="strong">80.25M</td><td>27.91M</td><td>13.45M</td><td>17.37M</td><td class="score-under-10m">8.54M</td><td>12.98M</td><td>—</td></tr><tr><td>망쿠</td><td class="strong">71.06M</td><td>12.23M</td><td>12.19M</td><td>21.91M</td><td>11.26M</td><td>13.47M</td><td>—</td></tr><tr><td>滿分堡</td><td class="strong">65.18M</td><td>19.52M</td><td class="score-under-10m">7.24M</td><td>10.98M</td><td>21.86M</td><td class="score-under-10m">5.58M</td><td>—</td></tr><tr><td>이불속곰탱이</td><td class="strong">58.65M</td><td>15.78M</td><td class="score-under-10m">5.60M</td><td>11.52M</td><td class="score-under-10m">8.86M</td><td>16.89M</td><td>—</td></tr><tr><td>잠자는 팬더</td><td class="strong">57.47M</td><td>18.63M</td><td class="score-under-10m">4.51M</td><td>19.40M</td><td>14.93M</td><td>—</td><td>—</td></tr><tr><td>한소희라고해</td><td class="strong">38.93M</td><td>—</td><td>—</td><td>—</td><td>—</td><td>38.93M</td><td>—</td></tr><tr><td>도라이언1호</td><td class="strong">35.38M</td><td class="score-under-10m">3.68M</td><td class="score-under-10m">6.69M</td><td class="score-under-10m">1.33M</td><td>17.51M</td><td class="score-under-10m">6.17M</td><td>—</td></tr><tr><td>_RIMA</td><td class="strong">33.34M</td><td class="score-under-10m">4.59M</td><td>12.66M</td><td class="score-under-10m">0</td><td class="score-under-10m">7.02M</td><td class="score-under-10m">9.07M</td><td>—</td></tr><tr><td>전 복</td><td class="strong">13.83M</td><td class="score-under-10m">707.40K</td><td class="score-under-10m">2.17M</td><td class="score-under-10m">2.22M</td><td class="score-under-10m">6.09M</td><td class="score-under-10m">2.64M</td><td>—</td></tr></tbody>
+<tbody><tr><td>장비</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>똠</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>우이</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>짜야</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>{HIT}~Ching菁</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>☆*•夜&amp;月☆*•</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>황 후</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>이집사</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>젬마스터</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>요기조기</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>하후돈°*✤</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>HIT._CHUB。</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>월루천향</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>일집사</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>레드™</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>성게</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>빵뽕꼬고</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>소양강처자</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>HellSpawn</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>EUNHARI</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>Survivor.00001</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>도라이언</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>직진왕김빠꾸</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>AAA就</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>물오리</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>Schlumpf</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>오드리햇반</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>한국유저</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>우이이</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>지휘관</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>영포티</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>7thSIN</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>Felix 용복°</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>k pop</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>풀짜응</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>스나이퍼</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>소양강처남</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>소후돈°*✤</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>Monique</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>파파팡</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>TomKim</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>정글√</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>푸우우</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>Kayako</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>소양강처남댁</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>reno</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>우라HIT</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>HIT감자탕</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>what??</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>제천대성</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>l아장l</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>명듀명듀</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>푸르미르</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>명쥬명쥬</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>황 비</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>현아곰도리</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>이정후</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>난나나</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>리부자리</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>소양강처녀</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>yul</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>uow日青</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>아 슬 란</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>감자탕</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>Максус</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>Kinanoramyle</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>PEPE</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>SergoN</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>달서역맥</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>용신연화</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>토미애비</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>Moscow</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>누리누</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>로랑</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>오만도리</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>Peebaby</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>솔리솔</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>친친</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>uow沛沛玲</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>누리 nuri</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>도라이언방구</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>多多關照</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>멜로우</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>망쿠</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>滿分堡</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>이불속곰탱이</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>잠자는 팬더</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>한소희라고해</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>도라이언1호</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>_RIMA</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr><tr><td>전 복</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr></tbody>
 </table>
 </div>
-<div class="notice">금요일까지 집계했으며 토요일은 ‘—’로 표시합니다. 금요일에 새로 확인된 ‘한소희라고해’는 이전 요일 점수를 추정하지 않고 ‘—’로 유지했습니다.</div>
+<div class="notice">11회 동맹리그 5주차 시작 전입니다. #195 OxO전 점수는 월요일부터 순차 입력합니다.</div>
 </details>
 <details class="section accordion-section" open=""><summary class="sectionhead accordion-head"><h2>요일별 10M 미만 동맹원</h2><span>화·수요일은 합산점수 기준</span><span class="native-chevron">⌄</span></summary>
 <div class="lowgrid merged-lowgrid">
-<section class="lowcard">
-<div class="lowhead"><h3>월요일</h3><span>6명</span></div>
-<div class="lowrow"><span>SergoN</span><strong>0</strong></div>
-<div class="lowrow"><span>전 복</span><strong>707.40K</strong></div>
-<div class="lowrow"><span>도라이언1호</span><strong>3.68M</strong></div>
-<div class="lowrow"><span>_RIMA</span><strong>4.59M</strong></div>
-<div class="lowrow"><span>우이이</span><strong>6.81M</strong></div>
-<div class="lowrow"><span>Peebaby</span><strong>8.47M</strong></div>
-</section>
-<section class="lowcard combined-card">
-<div class="lowhead">
-<div>
-<h3>화·수요일</h3>
-<small>화요일 + 수요일 합산</small>
-</div>
-<span>2명</span>
-</div>
-<div class="lowrow"><span>전 복</span><strong>4.39M</strong></div><div class="lowrow"><span>도라이언1호</span><strong>8.02M</strong></div>
-</section>
-<section class="lowcard">
-<div class="lowhead"><h3>목요일</h3><span>5명</span></div>
-<div class="lowrow"><span>감자탕</span><strong>6.04M</strong></div>
-<div class="lowrow"><span>전 복</span><strong>6.09M</strong></div>
-<div class="lowrow"><span>_RIMA</span><strong>7.02M</strong></div>
-<div class="lowrow"><span>멜로우</span><strong>8.54M</strong></div>
-<div class="lowrow"><span>이불속곰탱이</span><strong>8.86M</strong></div>
-</section>
-<section class="lowcard"><div class="lowhead"><h3>금요일</h3><span>13명</span></div><div class="lowrow"><span>전 복</span><strong>2.64M</strong></div><div class="lowrow"><span>누리 nuri</span><strong>3.27M</strong></div><div class="lowrow"><span>滿分堡</span><strong>5.58M</strong></div><div class="lowrow"><span>도라이언1호</span><strong>6.17M</strong></div><div class="lowrow"><span>직진왕김빠꾸</span><strong>6.93M</strong></div><div class="lowrow"><span>우라HIT</span><strong>7.10M</strong></div><div class="lowrow"><span>우이이</span><strong>7.18M</strong></div><div class="lowrow"><span>지휘관</span><strong>7.85M</strong></div><div class="lowrow"><span>HIT감자탕</span><strong>8.11M</strong></div><div class="lowrow"><span>장비</span><strong>8.75M</strong></div><div class="lowrow"><span>_RIMA</span><strong>9.07M</strong></div><div class="lowrow"><span>Peebaby</span><strong>9.14M</strong></div><div class="lowrow"><span>reno</span><strong>9.68M</strong></div></section>
-<section class="lowcard">
-<div class="lowhead"><h3>토요일</h3><span>대기</span></div>
-<div class="empty">아직 점수 미집계</div>
-</section>
+<section class="lowcard"><div class="lowhead"><h3>월요일</h3><span>대기</span></div><div class="lowempty">점수 입력 대기</div></section>
+<section class="lowcard combined-card"><div class="lowhead"><h3>화·수요일</h3><span>대기</span></div><div class="lowempty">점수 입력 대기</div></section>
+<section class="lowcard"><div class="lowhead"><h3>목요일</h3><span>대기</span></div><div class="lowempty">점수 입력 대기</div></section>
+<section class="lowcard"><div class="lowhead"><h3>금요일</h3><span>대기</span></div><div class="lowempty">점수 입력 대기</div></section>
+<section class="lowcard"><div class="lowhead"><h3>토요일</h3><span>대기</span></div><div class="lowempty">점수 입력 대기</div></section>
 </div>
 <div class="notice">월·목·금·토는 해당 요일 점수 기준이며, 화·수는 두 요일 합산점수가 10.00M보다 낮은 동맹원만 표시합니다.</div>
 </details>
@@ -1115,7 +1206,6 @@ details.accordion-section>.accordion-head:focus-visible{outline:2px solid var(--
 (function highlightScoresUnder10M(){
   const table=document.querySelector('.weekday-score-table');
   if(!table) return;
-
   const toNumber=value=>{
     const text=value.trim().replace(/,/g,'');
     if(!text || text==='-' || text==='—') return null;
@@ -1126,7 +1216,6 @@ details.accordion-section>.accordion-head:focus-visible{outline:2px solid var(--
     const multiplier=unit==='B'?1e9:unit==='M'?1e6:unit==='K'?1e3:1;
     return amount*multiplier;
   };
-
   table.querySelectorAll('tbody tr').forEach(row=>{
     Array.from(row.cells).slice(2,8).forEach(cell=>{
       const score=toNumber(cell.textContent);
@@ -1140,69 +1229,159 @@ const battleHistory = {
     league: 11,
     week: 4,
     hitMembers: 90,
-    hit: { server: 185, tag: "HIT", name: "Honor In Tiles", points: 0 },
+    hit: { server: 185, tag: "HIT", name: "Honor In Tiles", points: 6 },
     opponent: { server: 192, tag: "STB", name: "Storm Bears", points: 7 },
-    status: "5일차 종료 스냅샷",
+    status: "6일차 종료 확정 기록",
     days: [
       { day:"월요일", theme:"레이더 특훈", hit:2717001699, opponent:3883908168, result:"패배" },
       { day:"화요일", theme:"기지 건설", hit:1488683752, opponent:1813972149, result:"패배" },
       { day:"수요일", theme:"기술 연구", hit:4491215907, opponent:6185484520, result:"패배" },
       { day:"목요일", theme:"영웅 육성", hit:4538293747, opponent:5309359507, result:"패배" },
-      { day:"금요일", theme:"전투 준비", hit:1633134213, opponent:1453538968, result:"승" },
-      { day:"토요일", theme:"적군 처치", hit:null, opponent:null, result:"대기" }
+      { day:"금요일", theme:"전투 준비", hit:1633134213, opponent:1453538968, result:"승리" },
+      { day:"토요일", theme:"적군 처치", hit:null, opponent:null, result:"승리", note:"종합점수 미확인" }
     ]
   }
 };
-const fmtCompact = n => {
-  if(n == null) return "-";
-  if(n >= 1e9) return (n/1e9).toFixed(2)+"B";
-  if(n >= 1e6) return (n/1e6).toFixed(2)+"M";
-  if(n >= 1e3) return (n/1e3).toFixed(1)+"K";
-  return n.toLocaleString("ko-KR");
-};
-const fmtM = n => n == null ? "-" : (n/1e6).toFixed(2)+"M";
 
-function renderHistory(){
-  const league=document.getElementById('historyLeague').value;
-  const week=document.getElementById('historyWeek').value;
-  const data=battleHistory[`${league}-${week}`];
-  const empty=document.getElementById('historyEmpty');
-  const content=document.getElementById('historyContent');
-  if(!data){ empty.hidden=false; content.hidden=true; return; }
-  empty.hidden=true; content.hidden=false;
-  const rows=document.getElementById('historyRows');
-  const opponentHeader=document.getElementById('historyOpponentHeader');
-  if(opponentHeader) opponentHeader.textContent=data.opponent.tag;
-  rows.innerHTML=data.days.map(d=>{
+const fmtCompact=n=>{
+  if(n==null) return '-';
+  if(n>=1e9) return (n/1e9).toFixed(2)+'B';
+  if(n>=1e6) return (n/1e6).toFixed(2)+'M';
+  if(n>=1e3) return (n/1e3).toFixed(1)+'K';
+  return n.toLocaleString('ko-KR');
+};
+const fmtM=n=>n==null?'-':(n/1e6).toFixed(2)+'M';
+
+const historyLeague=document.getElementById('historyLeague');
+const historyWeek=document.getElementById('historyWeek');
+const historyEmpty=document.getElementById('historyEmpty');
+const historyContent=document.getElementById('historyContent');
+const historyRows=document.getElementById('historyRows');
+const historyOpponentHeader=document.getElementById('historyOpponentHeader');
+const historySearchInput=document.getElementById('historySearchInput');
+const historySearchButton=document.getElementById('historySearchButton');
+const historySearchReset=document.getElementById('historySearchReset');
+const historySearchMessage=document.getElementById('historySearchMessage');
+const historySearchResults=document.getElementById('historySearchResults');
+
+function normalizeSearch(value){
+  return String(value||'').trim().replace(/\s+/g,' ').toLocaleLowerCase('en-US');
+}
+function hideHistory(message){
+  historyContent.hidden=true;
+  historyEmpty.hidden=true;
+  if(message) historySearchMessage.textContent=message;
+}
+function renderHistory(data){
+  if(!data){
+    historyContent.hidden=true;
+    historyEmpty.hidden=false;
+    return;
+  }
+  historyEmpty.hidden=true;
+  historyContent.hidden=false;
+  const summary=document.querySelector('.history-score-summary');
+  const kicker=document.querySelector('.history-kicker');
+  const opponentBox=document.querySelector('.history-match-line .opponent');
+  if(summary){
+    const score=summary.querySelector('strong');
+    const status=summary.querySelector('small');
+    if(score) score.textContent=data.hit.points+' : '+data.opponent.points;
+    if(status) status.textContent=data.status;
+  }
+  if(kicker) kicker.textContent=data.league+'회 동맹리그 · '+data.week+'주차';
+  if(opponentBox){
+    opponentBox.querySelector('small').textContent='#'+data.opponent.server;
+    opponentBox.querySelector('strong').textContent=data.opponent.tag;
+    opponentBox.querySelector('em').textContent=data.opponent.name;
+  }
+  historyOpponentHeader.textContent=data.opponent.tag;
+  historyRows.innerHTML=data.days.map(d=>{
     const avg=d.hit==null?null:d.hit/data.hitMembers;
     const wl=d.result==='승리'?'W':d.result==='패배'?'L':'-';
     const wlClass=d.result==='승리'?'wl-win':d.result==='패배'?'wl-loss':'wl-wait';
     const hitCell=d.hit==null
-      ? '-'
-      : `<span class="score-main">${fmtCompact(d.hit)}</span><small class="score-sub">${fmtM(avg)}/인 · ${data.hitMembers}명</small>`;
-    const opponentCell=d.opponent==null?'-':`<span class="score-main">${fmtCompact(d.opponent)}</span>`;
-    return `<tr>
-      <td><span class="day-main">${d.day}</span><small class="day-theme">${d.theme}</small></td>
-      <td class="${d.hit==null?'pending':''}">${hitCell}</td>
-      <td class="${d.opponent==null?'pending':''}">${opponentCell}</td>
-      <td><span class="wl-mark ${wlClass}">${wl}</span></td>
-    </tr>`;
+      ? '<span class="score-main">-</span><small class="score-sub">'+(d.note||'')+'</small>'
+      : '<span class="score-main">'+fmtCompact(d.hit)+'</span><small class="score-sub">'+fmtM(avg)+'/인 · '+data.hitMembers+'명</small>';
+    const oppCell=d.opponent==null?'-':'<span class="score-main">'+fmtCompact(d.opponent)+'</span>';
+    return '<tr><td><span class="day-main">'+d.day+'</span><small class="day-theme">'+d.theme+'</small></td><td class="'+(d.hit==null?'pending':'')+'">'+hitCell+'</td><td class="'+(d.opponent==null?'pending':'')+'">'+oppCell+'</td><td><span class="wl-mark '+wlClass+'">'+wl+'</span></td></tr>';
   }).join('');
 }
-document.getElementById('historyLeague').addEventListener('change',renderHistory);
-document.getElementById('historyWeek').addEventListener('change',()=>{
-  const week=document.getElementById('historyWeek').value;
-  const data=battleHistory[`11-${week}`];
-  renderHistory();
+function showRecord(data){
+  historyLeague.value=String(data.league);
+  historyWeek.value=String(data.week);
+  renderHistory(data);
+  historySearchMessage.textContent='#'+data.opponent.server+' '+data.opponent.tag+' 기록을 표시합니다.';
+}
+function clearResultButtons(){
+  historySearchResults.innerHTML='';
+  historySearchResults.hidden=true;
+}
+function searchHistory(){
+  const query=normalizeSearch(historySearchInput.value);
+  clearResultButtons();
+  if(!query){
+    hideHistory('상대팀 이름 또는 서버 번호를 입력해 주세요.');
+    return;
+  }
+  const records=Object.keys(battleHistory).map(key=>battleHistory[key]).filter(data=>{
+    const haystack=normalizeSearch([data.opponent.tag,data.opponent.name,data.opponent.server,'#'+data.opponent.server].join(' '));
+    return haystack.includes(query);
+  });
+  if(records.length===0){
+    hideHistory('"'+historySearchInput.value.trim()+'" 검색 결과가 없습니다.');
+    return;
+  }
+  records.forEach(data=>{
+    const button=document.createElement('button');
+    button.type='button';
+    button.className='history-search-result';
+    button.innerHTML='<span>'+data.league+'회 · '+data.week+'주차 · #'+data.opponent.server+'</span><strong>'+data.opponent.tag+'</strong><em>'+data.hit.points+' : '+data.opponent.points+'</em>';
+    button.addEventListener('click',()=>showRecord(data));
+    historySearchResults.appendChild(button);
+  });
+  historySearchResults.hidden=false;
+  if(records.length===1) showRecord(records[0]);
+  else hideHistory(records.length+'개 기록이 검색되었습니다. 기록을 선택해 주세요.');
+}
+
+historySearchButton.addEventListener('click',searchHistory);
+historySearchInput.addEventListener('keydown',event=>{
+  if(event.key==='Enter'){
+    event.preventDefault();
+    searchHistory();
+  }
+});
+historySearchReset.addEventListener('click',()=>{
+  historySearchInput.value='';
+  historyWeek.value='';
+  clearResultButtons();
+  hideHistory('상대팀을 검색하거나 주차를 선택하면 기록이 표시됩니다.');
+});
+historyWeek.addEventListener('change',()=>{
+  const data=battleHistory[historyLeague.value+'-'+historyWeek.value];
+  if(data){
+    renderHistory(data);
+    historySearchMessage.textContent=historyWeek.value+'주차 기록을 표시합니다.';
+  }else if(historyWeek.value){
+    historyContent.hidden=true;
+    historyEmpty.hidden=false;
+    historySearchMessage.textContent=historyWeek.value+'주차에는 저장된 기록이 없습니다.';
+  }else{
+    hideHistory('상대팀을 검색하거나 주차를 선택하면 기록이 표시됩니다.');
+  }
+});
+historyLeague.addEventListener('change',()=>{
+  if(historyWeek.value) historyWeek.dispatchEvent(new Event('change'));
 });
 const historyDetails=document.getElementById('battleHistory');
 const historyActionText=document.querySelector('#historyToggle .history-launcher-action > span:first-child');
 historyDetails.addEventListener('toggle',()=>{
   historyActionText.textContent=historyDetails.open?'접기':'필요할 때 열기';
-  if(historyDetails.open) renderHistory();
 });
-renderHistory();
 
+historyWeek.value='';
+hideHistory('상대팀을 검색하거나 주차를 선택하면 기록이 표시됩니다.');
 </script>
 </body>
 </html>
