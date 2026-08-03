@@ -638,6 +638,43 @@ details.accordion-section[open]>.accordion-head .native-chevron{transform:transl
 details.accordion-section:not([open])>.accordion-head{margin-bottom:0}
 details.accordion-section>.accordion-head:focus-visible{outline:2px solid var(--blue);outline-offset:4px;border-radius:8px}
 @media(max-width:640px){details.accordion-section>.accordion-head{padding-right:44px}details.accordion-section>.accordion-head .native-chevron{right:10px;width:28px;height:28px}}
+
+/* ===== 과거 동맹원별 점수 전체화면 모달 ===== */
+.history-member-open{
+  width:100%;margin-top:12px;border:0;border-radius:14px;padding:14px 16px;
+  background:linear-gradient(135deg,#2f6df6,#2457c6);color:#fff;font:inherit;font-weight:900;
+  cursor:pointer;box-shadow:0 10px 22px rgba(47,109,246,.20);display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.history-member-open span{font-size:11px;font-weight:700;opacity:.82}
+.history-member-open[hidden]{display:none!important}
+.history-member-modal{position:fixed;inset:0;z-index:9999;display:none;background:rgba(13,22,39,.58);backdrop-filter:blur(5px);padding:18px}
+.history-member-modal.is-open{display:flex;align-items:center;justify-content:center}
+.history-member-dialog{width:min(1120px,100%);height:min(88vh,900px);background:#fff;border-radius:24px;box-shadow:0 28px 80px rgba(0,0,0,.25);overflow:hidden;display:flex;flex-direction:column}
+.history-member-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:20px 22px 14px;border-bottom:1px solid var(--line)}
+.history-member-head h3{margin:0;font-size:21px}.history-member-head p{margin:5px 0 0;color:var(--muted);font-size:12px;font-weight:700}
+.history-member-close{border:1px solid var(--line);background:#fff;border-radius:12px;width:42px;height:42px;font-size:22px;cursor:pointer;color:var(--text)}
+.history-member-tools{display:grid;grid-template-columns:minmax(190px,1fr) 170px 170px auto;gap:10px;padding:14px 22px;background:var(--surface2);border-bottom:1px solid var(--line)}
+.history-member-tools input,.history-member-tools select{height:42px;border:1px solid #dce3ef;border-radius:11px;background:#fff;padding:0 12px;font:inherit;font-size:12px;font-weight:750;color:var(--text);outline:none}
+.history-member-tools input:focus,.history-member-tools select:focus{border-color:#8ea7da;box-shadow:0 0 0 3px rgba(62,102,183,.10)}
+.history-member-count{display:flex;align-items:center;justify-content:flex-end;min-width:94px;color:var(--muted);font-size:12px;font-weight:900}
+.history-member-table-area{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;background:#fff}
+.history-member-table{width:100%;min-width:760px;border-collapse:separate;border-spacing:0;font-size:12px}
+.history-member-table th,.history-member-table td{padding:12px 11px;border-bottom:1px solid #edf0f5;white-space:nowrap;text-align:right;background:#fff}
+.history-member-table th{position:sticky;top:0;z-index:4;background:#f7f9fc;color:#607086;font-size:11px;font-weight:900;box-shadow:0 1px 0 #e7ebf1}
+.history-member-table th:first-child,.history-member-table td:first-child{position:sticky;left:0;text-align:left;z-index:3;background:#fff;min-width:165px;max-width:210px;overflow:hidden;text-overflow:ellipsis}
+.history-member-table th:first-child{z-index:6;background:#f7f9fc}
+.history-member-table td:nth-child(2){font-weight:900;color:var(--blue)}
+.history-member-table td.score-under-10m{background:#ffd9de!important;color:#b42335!important;font-weight:900;box-shadow:inset 0 0 0 1px rgba(180,35,53,.10)}
+.history-member-table tr[hidden]{display:none}
+.history-member-foot{padding:11px 22px;border-top:1px solid var(--line);font-size:11px;color:var(--muted);font-weight:700;background:#fff}
+body.modal-lock{overflow:hidden}
+@media(max-width:720px){
+  .history-member-modal{padding:0}.history-member-dialog{width:100%;height:100%;border-radius:0}
+  .history-member-head{padding:16px}.history-member-tools{grid-template-columns:1fr 1fr;padding:12px 14px}
+  .history-member-tools input{grid-column:1/-1}.history-member-count{justify-content:flex-start}
+  .history-member-table th,.history-member-table td{padding:11px 9px}.history-member-table th:first-child,.history-member-table td:first-child{min-width:135px;max-width:160px}
+}
+
 </style>
 <style>
 /* 과거 전적 컴팩트 4열 레이아웃 */
@@ -1172,6 +1209,7 @@ details.accordion-section>.accordion-head:focus-visible{outline:2px solid var(--
 </tbody>
 </table>
 </div>
+<button class="history-member-open" hidden id="historyMemberOpen" type="button"><strong>동맹원별 점수현황 보기</strong><span>91명 · 검색·정렬·필터</span></button>
 <div class="history-guide">
       요일별 동맹 총점을 비교하고, HIT 총점 아래에는 당시 인당 평균을 참고용으로 작게 표시합니다.
     </div>
@@ -1269,6 +1307,8 @@ function normalizeSearch(value){
 }
 function hideHistory(message){
   historyContent.hidden=true;
+  const memberButton=document.getElementById('historyMemberOpen');
+  if(memberButton) memberButton.hidden=true;
   historyEmpty.hidden=true;
   if(message) historySearchMessage.textContent=message;
 }
@@ -1280,6 +1320,8 @@ function renderHistory(data){
   }
   historyEmpty.hidden=true;
   historyContent.hidden=false;
+  const memberButton=document.getElementById('historyMemberOpen');
+  if(memberButton) memberButton.hidden=!(data.league===11 && data.week===4);
   const summary=document.querySelector('.history-score-summary');
   const kicker=document.querySelector('.history-kicker');
   const opponentBox=document.querySelector('.history-match-line .opponent');
@@ -1383,5 +1425,76 @@ historyDetails.addEventListener('toggle',()=>{
 historyWeek.value='';
 hideHistory('상대팀을 검색하거나 주차를 선택하면 기록이 표시됩니다.');
 </script>
+
+<div aria-hidden="true" class="history-member-modal" id="historyMemberModal">
+  <section aria-labelledby="historyMemberTitle" aria-modal="true" class="history-member-dialog" role="dialog">
+    <header class="history-member-head">
+      <div><h3 id="historyMemberTitle">4주차 · STB전 동맹원별 점수</h3><p>11회 동맹리그 · #185 HIT vs #192 STB</p></div>
+      <button aria-label="닫기" class="history-member-close" id="historyMemberClose" type="button">×</button>
+    </header>
+    <div class="history-member-tools">
+      <input autocomplete="off" id="historyMemberSearch" placeholder="닉네임 검색" type="search"/>
+      <select id="historyMemberSort"><option value="total-desc">누적 높은 순</option><option value="total-asc">누적 낮은 순</option><option value="name-asc">닉네임 가나다순</option><option value="mon-desc">월요일 높은 순</option><option value="tue-desc">화요일 높은 순</option><option value="wed-desc">수요일 높은 순</option><option value="thu-desc">목요일 높은 순</option><option value="fri-desc">금요일 높은 순</option></select>
+      <select id="historyMemberFilter"><option value="all">전체 동맹원</option><option value="under10">10M 미만 기록 보유</option><option value="no-score">미참여·0점 포함</option></select>
+      <div class="history-member-count" id="historyMemberCount">91명</div>
+    </div>
+    <div class="history-member-table-area">
+      <table class="history-member-table" id="historyMemberTable"><thead><tr><th>닉네임</th><th>누적</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr></thead><tbody><tr data-name="장비"><td>장비</td><td>676.38M</td><td>25.13M</td><td>28.01M</td><td>222.21M</td><td>392.28M</td><td class="score-under-10m">8.75M</td><td>—</td></tr><tr data-name="똠"><td>똠</td><td>399.48M</td><td>128.67M</td><td>45.79M</td><td>99.40M</td><td>90.86M</td><td>34.76M</td><td>—</td></tr><tr data-name="우이"><td>우이</td><td>376.23M</td><td>69.82M</td><td>22.50M</td><td>206.22M</td><td>66.40M</td><td>11.29M</td><td>—</td></tr><tr data-name="짜야"><td>짜야</td><td>372.18M</td><td>66.99M</td><td>21.77M</td><td>170.79M</td><td>97.05M</td><td>15.58M</td><td>—</td></tr><tr data-name="{HIT}~Ching菁"><td>{HIT}~Ching菁</td><td>363.11M</td><td>46.91M</td><td>26.16M</td><td>108.19M</td><td>129.78M</td><td>52.07M</td><td>—</td></tr><tr data-name="☆*•夜&amp;月☆*•"><td>☆*•夜&月☆*•</td><td>298.05M</td><td>38.80M</td><td>23.07M</td><td>109.71M</td><td>112.72M</td><td>13.75M</td><td>—</td></tr><tr data-name="황 후"><td>황 후</td><td>279.96M</td><td>47.33M</td><td class="score-under-10m">9.22M</td><td>66.64M</td><td>58.23M</td><td>98.54M</td><td>—</td></tr><tr data-name="이집사"><td>이집사</td><td>279.20M</td><td>66.52M</td><td>39.45M</td><td>70.42M</td><td>78.25M</td><td>24.56M</td><td>—</td></tr><tr data-name="젬마스터"><td>젬마스터</td><td>274.01M</td><td>23.46M</td><td>21.99M</td><td>56.25M</td><td>154.46M</td><td>17.85M</td><td>—</td></tr><tr data-name="요기조기"><td>요기조기</td><td>262.94M</td><td>34.22M</td><td>25.70M</td><td>111.99M</td><td>77.23M</td><td>13.80M</td><td>—</td></tr><tr data-name="하후돈°*✤"><td>하후돈°*✤</td><td>260.69M</td><td>29.40M</td><td>28.01M</td><td>113.48M</td><td>50.86M</td><td>38.94M</td><td>—</td></tr><tr data-name="HIT._CHUB。"><td>HIT._CHUB。</td><td>251.74M</td><td>91.23M</td><td>14.73M</td><td>41.07M</td><td>91.85M</td><td>12.86M</td><td>—</td></tr><tr data-name="월루천향"><td>월루천향</td><td>247.80M</td><td>35.59M</td><td>13.97M</td><td>99.53M</td><td>64.53M</td><td>34.18M</td><td>—</td></tr><tr data-name="일집사"><td>일집사</td><td>243.53M</td><td>47.81M</td><td>10.68M</td><td>78.09M</td><td>94.30M</td><td>12.65M</td><td>—</td></tr><tr data-name="레드™"><td>레드™</td><td>243.21M</td><td>45.22M</td><td>21.96M</td><td>98.32M</td><td>65.23M</td><td>12.48M</td><td>—</td></tr><tr data-name="성게"><td>성게</td><td>229.28M</td><td>39.33M</td><td class="score-under-10m">8.71M</td><td>65.17M</td><td>104.70M</td><td>11.37M</td><td>—</td></tr><tr data-name="빵뽕꼬고"><td>빵뽕꼬고</td><td>223.80M</td><td>61.66M</td><td>14.09M</td><td>53.05M</td><td>79.86M</td><td>15.14M</td><td>—</td></tr><tr data-name="소양강처자"><td>소양강처자</td><td>221.13M</td><td>32.32M</td><td>10.02M</td><td>32.02M</td><td>56.06M</td><td>90.71M</td><td>—</td></tr><tr data-name="HellSpawn"><td>HellSpawn</td><td>212.75M</td><td>64.48M</td><td>27.36M</td><td>69.91M</td><td>36.82M</td><td>14.18M</td><td>—</td></tr><tr data-name="EUNHARI"><td>EUNHARI</td><td>211.62M</td><td>46.74M</td><td>24.42M</td><td>48.74M</td><td>65.89M</td><td>25.83M</td><td>—</td></tr><tr data-name="Survivor.00001"><td>Survivor.00001</td><td>207.95M</td><td>13.21M</td><td>12.72M</td><td>45.96M</td><td>124.45M</td><td>11.61M</td><td>—</td></tr><tr data-name="도라이언"><td>도라이언</td><td>204.16M</td><td>25.64M</td><td>11.37M</td><td>64.41M</td><td>77.97M</td><td>24.77M</td><td>—</td></tr><tr data-name="직진왕김빠꾸"><td>직진왕김빠꾸</td><td>200.77M</td><td>13.80M</td><td class="score-under-10m">7.25M</td><td>126.68M</td><td>46.11M</td><td class="score-under-10m">6.93M</td><td>—</td></tr><tr data-name="AAA就"><td>AAA就</td><td>199.41M</td><td>40.42M</td><td>16.29M</td><td>56.03M</td><td>68.19M</td><td>18.48M</td><td>—</td></tr><tr data-name="물오리"><td>물오리</td><td>198.79M</td><td>81.12M</td><td>23.47M</td><td>29.90M</td><td>48.85M</td><td>15.45M</td><td>—</td></tr><tr data-name="Schlumpf"><td>Schlumpf</td><td>196.64M</td><td>63.64M</td><td>20.98M</td><td>28.48M</td><td>53.02M</td><td>30.52M</td><td>—</td></tr><tr data-name="오드리햇반"><td>오드리햇반</td><td>195.61M</td><td>31.82M</td><td>15.00M</td><td>89.74M</td><td>47.43M</td><td>11.62M</td><td>—</td></tr><tr data-name="한국유저"><td>한국유저</td><td>193.69M</td><td>32.84M</td><td>39.93M</td><td>55.67M</td><td>51.39M</td><td>13.86M</td><td>—</td></tr><tr data-name="우이이"><td>우이이</td><td>183.65M</td><td class="score-under-10m">6.81M</td><td class="score-under-10m">6.50M</td><td>125.41M</td><td>37.75M</td><td class="score-under-10m">7.18M</td><td>—</td></tr><tr data-name="지휘관"><td>지휘관</td><td>177.63M</td><td>50.53M</td><td>27.61M</td><td>28.85M</td><td>62.79M</td><td class="score-under-10m">7.85M</td><td>—</td></tr><tr data-name="영포티"><td>영포티</td><td>176.19M</td><td>29.54M</td><td>20.47M</td><td>78.71M</td><td>21.04M</td><td>26.43M</td><td>—</td></tr><tr data-name="7thSIN"><td>7thSIN</td><td>164.92M</td><td>36.86M</td><td>13.80M</td><td>46.84M</td><td>55.82M</td><td>11.60M</td><td>—</td></tr><tr data-name="Felix 용복°"><td>Felix 용복°</td><td>163.68M</td><td>13.25M</td><td>23.32M</td><td>47.51M</td><td>45.77M</td><td>33.83M</td><td>—</td></tr><tr data-name="k pop"><td>k pop</td><td>161.60M</td><td>28.09M</td><td>16.73M</td><td>43.35M</td><td>47.94M</td><td>25.49M</td><td>—</td></tr><tr data-name="풀짜응"><td>풀짜응</td><td>160.47M</td><td>11.85M</td><td>11.88M</td><td>58.50M</td><td>63.19M</td><td>15.05M</td><td>—</td></tr><tr data-name="스나이퍼"><td>스나이퍼</td><td>159.33M</td><td>26.10M</td><td>36.46M</td><td>43.47M</td><td>33.49M</td><td>19.81M</td><td>—</td></tr><tr data-name="소양강처남"><td>소양강처남</td><td>155.32M</td><td>31.39M</td><td class="score-under-10m">6.89M</td><td>54.46M</td><td>48.53M</td><td>14.05M</td><td>—</td></tr><tr data-name="소후돈°*✤"><td>소후돈°*✤</td><td>154.63M</td><td>20.36M</td><td>16.73M</td><td>25.22M</td><td>77.85M</td><td>14.47M</td><td>—</td></tr><tr data-name="Monique"><td>Monique</td><td>152.98M</td><td>57.26M</td><td>29.77M</td><td>22.44M</td><td>27.37M</td><td>16.14M</td><td>—</td></tr><tr data-name="파파팡"><td>파파팡</td><td>151.81M</td><td>31.54M</td><td class="score-under-10m">6.85M</td><td>48.99M</td><td>48.36M</td><td>16.07M</td><td>—</td></tr><tr data-name="TomKim"><td>TomKim</td><td>151.77M</td><td>23.61M</td><td>14.55M</td><td>40.37M</td><td>52.31M</td><td>20.93M</td><td>—</td></tr><tr data-name="정글√"><td>정글√</td><td>151.15M</td><td>23.44M</td><td>17.66M</td><td>65.88M</td><td>28.00M</td><td>16.17M</td><td>—</td></tr><tr data-name="푸우우"><td>푸우우</td><td>150.46M</td><td>16.68M</td><td>10.73M</td><td>51.49M</td><td>45.47M</td><td>26.09M</td><td>—</td></tr><tr data-name="Kayako"><td>Kayako</td><td>150.44M</td><td>18.18M</td><td>55.39M</td><td>22.58M</td><td>41.20M</td><td>13.09M</td><td>—</td></tr><tr data-name="소양강처남댁"><td>소양강처남댁</td><td>146.37M</td><td>38.44M</td><td class="score-under-10m">9.40M</td><td>18.34M</td><td>66.99M</td><td>13.20M</td><td>—</td></tr><tr data-name="reno"><td>reno</td><td>140.21M</td><td>13.51M</td><td>17.75M</td><td>52.78M</td><td>46.49M</td><td class="score-under-10m">9.68M</td><td>—</td></tr><tr data-name="우라HIT"><td>우라HIT</td><td>131.51M</td><td>37.14M</td><td class="score-under-10m">6.09M</td><td>28.94M</td><td>52.24M</td><td class="score-under-10m">7.10M</td><td>—</td></tr><tr data-name="HIT감자탕"><td>HIT감자탕</td><td>131.31M</td><td>10.91M</td><td>15.46M</td><td>53.27M</td><td>43.56M</td><td class="score-under-10m">8.11M</td><td>—</td></tr><tr data-name="what??"><td>what??</td><td>130.53M</td><td>16.69M</td><td>16.66M</td><td>66.64M</td><td>17.30M</td><td>13.24M</td><td>—</td></tr><tr data-name="제천대성"><td>제천대성</td><td>130.33M</td><td>15.19M</td><td>14.08M</td><td>36.35M</td><td>49.93M</td><td>14.78M</td><td>—</td></tr><tr data-name="l아장l"><td>l아장l</td><td>129.98M</td><td>13.41M</td><td>10.99M</td><td>57.23M</td><td>37.42M</td><td>10.93M</td><td>—</td></tr><tr data-name="명듀명듀"><td>명듀명듀</td><td>128.03M</td><td>29.36M</td><td>11.32M</td><td>22.09M</td><td>40.83M</td><td>24.43M</td><td>—</td></tr><tr data-name="푸르미르"><td>푸르미르</td><td>127.05M</td><td>27.57M</td><td>11.75M</td><td>18.22M</td><td>38.62M</td><td>30.89M</td><td>—</td></tr><tr data-name="명쥬명쥬"><td>명쥬명쥬</td><td>126.46M</td><td>30.70M</td><td class="score-under-10m">8.28M</td><td>30.44M</td><td>36.93M</td><td>20.11M</td><td>—</td></tr><tr data-name="황 비"><td>황 비</td><td>124.34M</td><td>41.56M</td><td>12.63M</td><td>31.18M</td><td>12.58M</td><td>26.39M</td><td>—</td></tr><tr data-name="현아곰도리"><td>현아곰도리</td><td>123.88M</td><td>24.05M</td><td>17.38M</td><td>15.43M</td><td>48.25M</td><td>18.77M</td><td>—</td></tr><tr data-name="이정후"><td>이정후</td><td>123.51M</td><td>11.72M</td><td>12.48M</td><td>56.86M</td><td>29.71M</td><td>12.74M</td><td>—</td></tr><tr data-name="난나나"><td>난나나</td><td>121.31M</td><td>30.43M</td><td>12.33M</td><td>29.45M</td><td>31.55M</td><td>17.55M</td><td>—</td></tr><tr data-name="리부자리"><td>리부자리</td><td>118.74M</td><td>23.10M</td><td class="score-under-10m">9.26M</td><td>50.64M</td><td>24.46M</td><td>11.28M</td><td>—</td></tr><tr data-name="소양강처녀"><td>소양강처녀</td><td>117.50M</td><td>16.80M</td><td class="score-under-10m">7.68M</td><td>14.82M</td><td>65.15M</td><td>13.05M</td><td>—</td></tr><tr data-name="yul"><td>yul</td><td>117.32M</td><td>25.64M</td><td>12.24M</td><td>41.70M</td><td>27.65M</td><td>10.09M</td><td>—</td></tr><tr data-name="uow日青"><td>uow日青</td><td>115.99M</td><td>12.06M</td><td>11.75M</td><td>29.81M</td><td>49.64M</td><td>12.73M</td><td>—</td></tr><tr data-name="아 슬 란"><td>아 슬 란</td><td>114.74M</td><td>12.36M</td><td>31.17M</td><td>27.66M</td><td>20.15M</td><td>23.40M</td><td>—</td></tr><tr data-name="감자탕"><td>감자탕</td><td>114.66M</td><td>11.99M</td><td>16.66M</td><td>67.03M</td><td class="score-under-10m">6.04M</td><td>12.94M</td><td>—</td></tr><tr data-name="Максус"><td>Максус</td><td>110.72M</td><td>30.81M</td><td>10.90M</td><td>23.00M</td><td>35.58M</td><td>10.43M</td><td>—</td></tr><tr data-name="Kinanoramyle"><td>Kinanoramyle</td><td>108.07M</td><td>19.92M</td><td>20.78M</td><td>17.44M</td><td>37.10M</td><td>12.83M</td><td>—</td></tr><tr data-name="PEPE"><td>PEPE</td><td>107.39M</td><td>16.68M</td><td>14.44M</td><td>31.51M</td><td>29.37M</td><td>15.39M</td><td>—</td></tr><tr data-name="SergoN"><td>SergoN</td><td>107.30M</td><td class="score-under-10m">0</td><td>12.21M</td><td>33.24M</td><td>49.74M</td><td>12.11M</td><td>—</td></tr><tr data-name="달서역맥"><td>달서역맥</td><td>106.33M</td><td>30.98M</td><td>14.38M</td><td>20.31M</td><td>29.54M</td><td>11.12M</td><td>—</td></tr><tr data-name="용신연화"><td>용신연화</td><td>106.22M</td><td>40.30M</td><td>11.26M</td><td>17.78M</td><td>10.74M</td><td>26.14M</td><td>—</td></tr><tr data-name="토미애비"><td>토미애비</td><td>103.16M</td><td>22.73M</td><td>10.87M</td><td>27.34M</td><td>30.73M</td><td>11.49M</td><td>—</td></tr><tr data-name="Moscow"><td>Moscow</td><td>102.75M</td><td>11.68M</td><td>10.81M</td><td>38.47M</td><td>28.16M</td><td>13.63M</td><td>—</td></tr><tr data-name="누리누"><td>누리누</td><td>98.37M</td><td>31.85M</td><td class="score-under-10m">6.84M</td><td>12.90M</td><td>35.80M</td><td>10.98M</td><td>—</td></tr><tr data-name="로랑"><td>로랑</td><td>96.60M</td><td>14.23M</td><td class="score-under-10m">9.82M</td><td>21.79M</td><td>35.00M</td><td>15.76M</td><td>—</td></tr><tr data-name="오만도리"><td>오만도리</td><td>93.13M</td><td>14.78M</td><td>21.70M</td><td>16.47M</td><td>24.09M</td><td>16.09M</td><td>—</td></tr><tr data-name="Peebaby"><td>Peebaby</td><td>91.23M</td><td class="score-under-10m">8.47M</td><td>27.17M</td><td>14.61M</td><td>31.84M</td><td class="score-under-10m">9.14M</td><td>—</td></tr><tr data-name="솔리솔"><td>솔리솔</td><td>87.65M</td><td>17.29M</td><td>11.04M</td><td>28.65M</td><td>20.60M</td><td>10.07M</td><td>—</td></tr><tr data-name="친친"><td>친친</td><td>87.02M</td><td>13.25M</td><td>10.30M</td><td>35.78M</td><td>11.21M</td><td>16.48M</td><td>—</td></tr><tr data-name="uow沛沛玲"><td>uow沛沛玲</td><td>84.77M</td><td>28.46M</td><td>11.04M</td><td>15.14M</td><td>12.13M</td><td>18.00M</td><td>—</td></tr><tr data-name="누리 nuri"><td>누리 nuri</td><td>81.74M</td><td>22.82M</td><td class="score-under-10m">9.13M</td><td>30.54M</td><td>15.98M</td><td class="score-under-10m">3.27M</td><td>—</td></tr><tr data-name="도라이언방구"><td>도라이언방구</td><td>81.44M</td><td>27.24M</td><td>18.22M</td><td class="score-under-10m">5.39M</td><td>17.17M</td><td>13.42M</td><td>—</td></tr><tr data-name="多多關照"><td>多多關照</td><td>81.38M</td><td>11.29M</td><td>12.53M</td><td>25.34M</td><td>19.86M</td><td>12.36M</td><td>—</td></tr><tr data-name="멜로우"><td>멜로우</td><td>80.25M</td><td>27.91M</td><td>13.45M</td><td>17.37M</td><td class="score-under-10m">8.54M</td><td>12.98M</td><td>—</td></tr><tr data-name="망쿠"><td>망쿠</td><td>71.06M</td><td>12.23M</td><td>12.19M</td><td>21.91M</td><td>11.26M</td><td>13.47M</td><td>—</td></tr><tr data-name="滿分堡"><td>滿分堡</td><td>65.18M</td><td>19.52M</td><td class="score-under-10m">7.24M</td><td>10.98M</td><td>21.86M</td><td class="score-under-10m">5.58M</td><td>—</td></tr><tr data-name="이불속곰탱이"><td>이불속곰탱이</td><td>58.65M</td><td>15.78M</td><td class="score-under-10m">5.60M</td><td>11.52M</td><td class="score-under-10m">8.86M</td><td>16.89M</td><td>—</td></tr><tr data-name="잠자는 팬더"><td>잠자는 팬더</td><td>57.47M</td><td>18.63M</td><td class="score-under-10m">4.51M</td><td>19.40M</td><td>14.93M</td><td>—</td><td>—</td></tr><tr data-name="한소희라고해"><td>한소희라고해</td><td>38.93M</td><td>—</td><td>—</td><td>—</td><td>—</td><td>38.93M</td><td>—</td></tr><tr data-name="도라이언1호"><td>도라이언1호</td><td>35.38M</td><td class="score-under-10m">3.68M</td><td class="score-under-10m">6.69M</td><td class="score-under-10m">1.33M</td><td>17.51M</td><td class="score-under-10m">6.17M</td><td>—</td></tr><tr data-name="_RIMA"><td>_RIMA</td><td>33.34M</td><td class="score-under-10m">4.59M</td><td>12.66M</td><td class="score-under-10m">0</td><td class="score-under-10m">7.02M</td><td class="score-under-10m">9.07M</td><td>—</td></tr><tr data-name="전 복"><td>전 복</td><td>13.83M</td><td class="score-under-10m">707.40K</td><td class="score-under-10m">2.17M</td><td class="score-under-10m">2.22M</td><td class="score-under-10m">6.09M</td><td class="score-under-10m">2.64M</td><td>—</td></tr></tbody></table>
+    </div>
+    <footer class="history-member-foot">붉은 배경은 해당 요일 점수가 10M 미만인 기록입니다. 닉네임 열과 표 헤더는 스크롤 중 고정됩니다.</footer>
+  </section>
+</div>
+
+
+<script>
+(function(){
+  const modal=document.getElementById('historyMemberModal');
+  const openBtn=document.getElementById('historyMemberOpen');
+  const closeBtn=document.getElementById('historyMemberClose');
+  const search=document.getElementById('historyMemberSearch');
+  const sort=document.getElementById('historyMemberSort');
+  const filter=document.getElementById('historyMemberFilter');
+  const count=document.getElementById('historyMemberCount');
+  const tbody=document.querySelector('#historyMemberTable tbody');
+  if(!modal||!openBtn||!closeBtn||!tbody) return;
+  const rows=Array.from(tbody.rows);
+  const parseScore=value=>{
+    const t=String(value||'').trim().replace(/,/g,'');
+    if(!t||t==='—'||t==='-') return null;
+    const m=t.match(/^([0-9]+(?:\.[0-9]+)?)\s*([KMB])?$/i);
+    if(!m) return null;
+    const mult={K:1e3,M:1e6,B:1e9}[(m[2]||'').toUpperCase()]||1;
+    return parseFloat(m[1])*mult;
+  };
+  const apply=()=>{
+    const q=search.value.trim().toLocaleLowerCase('ko-KR');
+    const f=filter.value;
+    rows.forEach(row=>{
+      const scores=Array.from(row.cells).slice(2).map(c=>parseScore(c.textContent));
+      const name=row.cells[0].textContent.toLocaleLowerCase('ko-KR');
+      const hasUnder=scores.some(v=>v!==null&&v<10000000);
+      const hasNoScore=scores.some(v=>v===0||v===null);
+      row.hidden=!(name.includes(q)&&(f==='all'||(f==='under10'&&hasUnder)||(f==='no-score'&&hasNoScore)));
+    });
+    const [key,dir]=sort.value.split('-');
+    const col={total:1,mon:2,tue:3,wed:4,thu:5,fri:6}[key];
+    const visible=rows.slice().sort((a,b)=>{
+      if(key==='name') return a.cells[0].textContent.localeCompare(b.cells[0].textContent,'ko');
+      const av=parseScore(a.cells[col].textContent)??-1;
+      const bv=parseScore(b.cells[col].textContent)??-1;
+      return dir==='asc'?av-bv:bv-av;
+    });
+    visible.forEach(row=>tbody.appendChild(row));
+    count.textContent=rows.filter(r=>!r.hidden).length+'명';
+  };
+  const open=()=>{modal.classList.add('is-open');modal.setAttribute('aria-hidden','false');document.body.classList.add('modal-lock');search.focus();apply();};
+  const close=()=>{modal.classList.remove('is-open');modal.setAttribute('aria-hidden','true');document.body.classList.remove('modal-lock');openBtn.focus();};
+  openBtn.addEventListener('click',open);closeBtn.addEventListener('click',close);
+  modal.addEventListener('click',e=>{if(e.target===modal) close();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('is-open')) close();});
+  search.addEventListener('input',apply);sort.addEventListener('change',apply);filter.addEventListener('change',apply);
+})();
+</script>
+
 </body>
 </html>
